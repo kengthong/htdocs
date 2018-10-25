@@ -1,0 +1,31 @@
+
+.add-item-button {
+    padding: 8px !important;
+    border-radius: 4px;
+    background-color: blue;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+.w-30 {
+    width: 30%;
+    margin-left:auto;
+    margin-right:auto;
+}
+.w-70 {
+    width: 70%;
+    margin-left:auto;
+    margin-right:auto;
+}
+.w-90 {
+    width: 90%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.test {
+    width: 100px;
+    height: 100px;
+    background-color: green;
+}

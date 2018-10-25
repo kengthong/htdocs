@@ -1,0 +1,66 @@
+
+.add-item-button {
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.add-item-button:hover {
+    cursor: pointer;
+}
+
+.entry-title {
+    padding-bottom: 8px;
+}
+
+.flex-col {
+    flex-direction: column;
+    display:flex;
+}
+.flex-row {
+    flex-direction: row;
+    display:flex;
+}
+
+.item-wrapper {
+    border: 1px solid #e8e8e8;
+    padding: 8px;
+    border-radius: 8px;
+}
+.w-30 {
+    width: 30%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.w-40 {
+    width: 40%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.w-60 {
+    width: 60%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.w-70 {
+    width: 70%;
+    margin-left:auto;
+    margin-right:auto;
+}
+.w-90 {
+    width: 90%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.test {
+    width: 100px;
+    height: 100px;
+    background-color: green;
+}

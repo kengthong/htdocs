@@ -1,0 +1,19 @@
+.bodyWrapper {
+    height: 100%;
+    width: 100%;
+    background-color: green;
+}
+
+.itemsWrapper {
+    height: 40%;
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+    background-color: blue;
+}
+.mainWrapper {
+    background-color: blue;
+    height: 100px;
+    width: 100px;
+}
+

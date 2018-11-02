@@ -131,6 +131,7 @@
 
     <!-- PUT YOUR CODE HERE -->
     <div>
+		<h1>Items on loan</h1>
 		Items on loan. View the paper for the various functions required. test
 		
     </div>

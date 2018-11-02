@@ -99,6 +99,12 @@
 
         <!-- Product Catagories Area Start -->
         <div class="products-catagories-area clearfix">
+            <div class="flex-row w-100">
+                test
+                <button>
+                    Login
+                </button>
+            </div>
             <div class="amado-pro-catagory clearfix">
 
                 <?php 

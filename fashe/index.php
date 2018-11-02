@@ -1,3 +1,6 @@
+<?php 
+	session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,50 +77,98 @@
 					<img src="images/cs2102.png" alt="IMG-LOGO" style="width: 80px">
 				</a>
 
-				<!-- Header Icon -->
-				<div class="header-icons">
-                    <div class="list-an-item-btn">
-                        <a href="list-an-item/index.php" class="header-wrapicon1 dis-block">
-                            List An Item
-                        </a>
-                    </div>
+				<div class='header-icons'>
+					<div class='list-an-item-btn'>
+						<a href='list-an-item/index.php' class='header-wrapicon1 dis-block'>
+							List An Item
+						</a>
+					</div>
 
-					<span class="linedivide1"></span>
+					<span class='linedivide1'></span>
 
-					<div class="header-wrapicon2 js-show-header-dropdown header-icon1" style="width: 52px">
-                        <img src="images/icons/icon-header-01.png" class="header-icon1" alt="ICON">
-                        <span class="header-icon-notif">0</span>
-                        <span class="caret"></span>
+					<?php 
+						$login = isset($_SESSION['username']);
 
-                        <!-- Header cart noti -->
-                        <div class="header-user header-dropdown">
-                            <ul class="header-cart-wrapitem">
-                                <li class="header-cart-item">
-                                    <a href="my-listings/index.php">
-                                        My Listings
-                                    </a>
-                                </li>
+						if($login) {
+							echo "
+								<!-- Header Icon -->
+								
 
-                                <li class="header-cart-item">
-                                    <a href="borrowed-items/index.php">
-                                        Items On Loan
-                                    </a>
-                                </li>
+								<div class='header-wrapicon2 js-show-header-dropdown header-icon1' style='width: 52px'>
+									<img src='images/icons/icon-header-01.png' class='header-icon1' alt='ICON'>
+									<span class='header-icon-notif'>0</span>
+									<span class='caret'></span>
 
-                                <li class="header-cart-item">
-                                    <a href="settings/profile.php">
-                                        Setting
-                                    </a>
-                                </li>
+									<!-- Header cart noti -->
+									<div class='header-user header-dropdown'>
+										<ul class='header-cart-wrapitem'>
+											<li class='header-cart-item'>
+												<a href='my-listings/index.php'>
+													My Listings
+												</a>
+											</li>
 
-                                <li class="header-cart-item">
-                                    <a href="#">
-                                        Log Out
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+											<li class='header-cart-item'>
+												<a href='borrowed-items/index.php'>
+													Items On Loan
+												</a>
+											</li>
+
+											<li class='header-cart-item'>
+												<a href='settings/profile.php'>
+													Setting
+												</a>
+											</li>
+
+											<li class='header-cart-item'>
+												<button type='submit' id='logoutBtn'>
+													Log Out
+												</button>
+												
+											</li>
+										</ul>
+									</div>	
+								</div>							
+								";
+							echo"
+							<script type='text/javascript'>
+								document.getElementById('logoutBtn').onclick = function() {
+									console.log('clicked');
+									$.ajax({
+										type: 'POST',
+										url: 'logic/logout.php',
+										data: true,
+										cache: false,
+										// success: function(result){
+										// 	var result=trim(result);
+										// 	$('#flash').hide();
+										// 	if(result=='correct'){
+										// 		not1();
+										// 	}else{
+										// 		not2();
+										// 	}
+										// }
+									});
+								}
+							</script>
+							";
+						} else {
+							//prompt login button
+							echo "
+								<button type='submit' id='loginBtn'>
+									Log In
+								</button>
+							";
+
+							echo "
+							<script type='text/javascript'>
+								document.getElementById('loginBtn').onclick = function () {
+									location.href = 'view/login.php';
+								};
+							</script>
+							";
+						}
+					?>
 				</div>
 			</div>
 		</div>

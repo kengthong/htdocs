@@ -131,7 +131,7 @@
 
     <!-- PUT YOUR CODE HERE -->
     <div>
-		Items on loan. View the paper for the various functions required.
+		Items on loan. View the paper for the various functions required. test
 		
     </div>
 

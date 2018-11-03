@@ -133,7 +133,7 @@
     <!-- PUT YOUR CODE HERE -->
     <div>
 		
-		<!-- Create Listing -->
+		<!-- Retrieve my current listings -->
 		<div class="wrap-slick2" style="display: flex; flex-flow: row wrap">
         
         <?php 
@@ -141,8 +141,7 @@
                     $queryString = "
                     SELECT DISTINCT name, entry_id, current_bid, total_quantity, current_quantity, loan_duration, bid_closing_date
                     FROM entry e
-                    WHERE bid_closing_date > now()
-                    ORDER BY bid_closing_date DESC
+                    WHERE userid = inputId; 
                     LIMIT 12";
 
                     $result = pg_query($db, $queryString);
@@ -186,9 +185,11 @@
                     }
                 ?>
                 
-			</div>
+			</div> <!-- end retrieve my Listings-->
 
 		</div>
+
+        <!-- Create Listing -->
 
 		<!-- Remove Listing -->
 

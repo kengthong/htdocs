@@ -187,7 +187,8 @@
 			<div class="wrap-slick2" style="display: flex; flex-flow: row wrap">
 
                 <?php 
-                    $db = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102Project user=postgres password=kengthong");	
+                    //$db = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102proj user=postgres password=kengthong");	
+    				$db = pg_connect("host=127.0.0.1  port=8000 dbname=fashe user=postgres password=Password1");	
                     $queryString = "
                     SELECT DISTINCT name, entry_id, current_bid, total_quantity, current_quantity, loan_duration, bid_closing_date
                     FROM entry e

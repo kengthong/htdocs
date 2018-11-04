@@ -45,10 +45,13 @@ function test_input($data) {
 
 if(isset($_POST['submit'])) {
 
-    $db = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102Project user=postgres password=kengthong");	
+    $db = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102Project user=postgres password=kengthong");
+    $ownerID = pg_query($db, "SELECT user_id from users WHERE emailInput = email")
+
+    //tried to implement ownerID from input fields
     $queryString = "
     INSERT INTO entry (name,location,starting_bid,current_bid,owner_id,total_quantity,current_quantity,bid_closing_date,loan_duration) 
-    VALUES (nameinput,locationinput,startingbidinput,'0',owner_id,quantityinput,quantityinput,dateinput,durationinput);"
+    VALUES (nameinput,locationinput,startingbidinput,'0',$ownerID,quantityinput,quantityinput,dateinput,durationinput);"
 
     $result = pg_query($db, $queryString);
 

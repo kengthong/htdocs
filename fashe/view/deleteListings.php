@@ -143,10 +143,7 @@
             <div>
             <p>*Key in details of listing to be deleted*</p>
             <form action="addListings.php" method="post">
-                Name of item: <input type="text" name="nameinput"><?php echo $nameErr;?><br>
-                Username:<input type ="text" name ="usernameinput"><?php echo $usernameErr;?><br>
-                User Email: <input type ="text" name ="emailinput"><?php echo $emailErr;?><br>
-                
+                Entry/Listing Id: <input type="integer" name="entryidinput"><?php echo $entryidinputErr;?><br>
                 <br>
         <input type="submit" name="submit" value="Submit"> 
             </form>

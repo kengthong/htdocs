@@ -3,10 +3,7 @@
 $db = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102Project user=postgres password=kengthong");
 //$db     = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102Project user=postgres password=kengthong");
 
-$ownerID = pg_query($db, "SELECT DISTINCT user_id from users WHERE $_POST[emailInput] = email");
-
-$result = pg_query($db, "SELECT * FROM entry where owner_id = $ownerID AND name = '$_POST[nameinput]' AND location = '$_POST[locationinput]' AND 
-starting_bid = $_POST[bidinput]'");		// Query template query only 4 fields to find
+$result = pg_query($db, "SELECT * FROM entry where entry_id = '$_POST[entryidinput]'");		// Query template query only 4 fields to find
 
 $row    = pg_fetch_assoc($result);		// To store the result row
 if (isset($_POST['submit'])) {

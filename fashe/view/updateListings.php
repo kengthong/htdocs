@@ -142,18 +142,7 @@
 
                 <p>*Key in details of your listing for search and update*</p>
                 <form action="updateListings.php" method="post">
-                Name of item: <input type="text" name="nameinput"><?php echo $nameErr;?><br>
-                Email: <input type ="text" name ="emailinput"><?php echo $emailErr;?><br>
-                Location of collection: <input type ="text" name ="locationinput"><?php echo $locationErr;?><br>
-                starting bid: <input type ="integer" name ="startingbidinput"><?php echo $bidErr;?><br>
-                total quantity:<input type ="integer" name ="quantityinput"><?php echo $quantityErr;?><br>
-                Bid closing date: <input type="date" name="dateinput" value="<?php echo date('d/m/y'); ?>" /><br/>
-                loan duration:<br>
-                <input type="radio" name="durationinput" value="1" checked> 1<br>
-                <input type="radio" name="durationinput" value="2"> 2<br>
-                <input type="radio" name="durationinput" value="7"> 7<br>
-                <input type="radio" name="durationinput" value="14"> 14<br>
-                
+                Entry/Listing ID: <input type="integer" name="entryidinput"><?php echo $entryidErr;?><br>
                 <br>
         <input type="submit" name="submit" value="Submit"> 
             </form> 

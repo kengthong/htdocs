@@ -14,7 +14,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Log In</title>
+	<title>Register</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->
@@ -66,30 +66,106 @@
 	</header>
 
     <div class="container">
-        <div class='login-wrapper' style='border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px;'>
-            <form action="../logic/login.php" method="POST">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Username</label>
-                    <input 
-                        name="username" 
-                        type="text" 
-                        class="form-control" 
-                        style="border-bottom: 1px solid #e8e8e8 !important;   opacity:0.65;"
-                        placeholder="Username">
+        <div style='border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px; width: 80%; margin-left: auto; margin-right: auto;'>
+            <div style='font-weight: bold; border-bottom: 1px solid #e8e8e8; padding-bottom: 14px; margin-bottom: 36px;'> 
+                Register as a new user
+            </div>
+            <form action="../logic/register.php" method="POST" class='row' style='width: 95%; margin-left: auto; margin-right: auto'>
+                <div class='col-lg-6'>
+                    <div class='row register-row'>
+                        <div class='col-lg-5 form-labels'>
+                            Username
+                        </div>
+
+                        <div class='col-lg-7'>
+                            <input 
+                                name='username'
+                                type='text'
+                                class='register-form'
+                                style="opacity:0.65;"
+                                placeholder="username"
+                            />
+                        </div>
+                    </div>
+
+                    <div class='row register-row'>
+                        <div class='col-lg-5 form-labels'>
+                            Name
+                        </div>
+
+                        <div class='col-lg-7'>
+                            <input 
+                                name='name'
+                                type='text'
+                                class='register-form'
+                                style="opacity:0.65;"
+                                placeholder="name"
+                            />
+                        </div>
+                    </div>
+
+                    <div class='row register-row'>
+                        <div class='col-lg-5 form-labels'>
+                            Email
+                        </div>
+
+                        <div class='col-lg-7'>
+                            <input 
+                                name='email'
+                                type='text'
+                                class='register-form'
+                                style="opacity:0.65;"
+                                placeholder="email"
+                            />
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input 
-                        name="password" 
-                        type="password" 
-                        class="form-control" 
-                        style="border-bottom: 1px solid #e8e8e8 !important;  opacity:0.65;"
-                        id="exampleInputPassword1" 
-                        placeholder="Password">
+                <div class='col-lg-6'>
+                    <div class='row register-row'>
+                        <div class='col-lg-5 form-labels'>
+                            Password
+                        </div>
+
+                        <div class='col-lg-7'>
+                            <input 
+                                name='password'
+                                type='password'
+                                class='register-form'
+                                style="opacity:0.65;"
+                                placeholder="password"
+                            />
+                        </div>
+                    </div>
+
+                    <div class='row register-row'>
+                        <div class='col-lg-5 form-labels'>
+                            Contact Number
+                        </div>
+
+                        <div class='col-lg-7'>
+                            <input 
+                                name='contact_number'
+                                type='text'
+                                class='register-form'
+                                style="opacity:0.65;"
+                                placeholder="+65"
+                            />
+                        </div>
+                    </div>
                 </div>
 
-				<button name="submit" type="submit" class="btn btn-primary"> Login</button>
-				<button type='button' class='btn' id='register' style='opacity: 0.65'> Register </button>
+                <div style='height: 40px; width: 100%'></div>
+
+                <div class='register-buttons-row'>
+                    <button name="submit" type="submit" class="btn btn-primary"> 
+                        Register
+                    </button>
+                    <button type='button' class='btn' id='cancelBtn'style='opacity: 0.65;width: 92px; border: 2px solid #e8e8e8 !important;'> 
+                        Cancel 
+                    </button>
+                </div>
+                
+                <!-- //user_id, password, username, name, contact_number, email, admin -->
 			</form>
 			
         </div>
@@ -145,17 +221,6 @@
 				swal(nameProduct, "is added to wishlist !", "success");
 			});
 		});
-
-		var registerBtn = document.getElementById('register');
-		registerBtn.addEventListener('click', function() {
-			window.location.href='register.php';
-		})
-
-		var urlParams = new URLSearchParams(window.location.search);
-		var regParam = urlParams.get('register');
-		if(regParam == 'success') {
-			alert("Successfully created an account");
-		}
 	</script>
 
 <!--===============================================================================================-->

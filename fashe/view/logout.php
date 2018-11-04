@@ -1,14 +1,5 @@
 <?php
     session_start();
-    if(isset($_SESSION['username'])) {
-        echo"
-            <div>
-                Redirecting
-            </div>
-        ";
-        
-        header("Location: ../index.php");
-    };
 ?>
 
 <!DOCTYPE html>
@@ -65,33 +56,22 @@
 		</div>
 	</header>
 
-    <div class="container">
-        <div class='login-wrapper' style='border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px;'>
-            <form action="../logic/login.php" method="POST">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Username</label>
-                    <input 
-                        name="username" 
-                        type="text" 
-                        class="form-control" 
-                        style="border-bottom: 1px solid #e8e8e8 !important;   opacity:0.65;"
-                        placeholder="Username">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input 
-                        name="password" 
-                        type="password" 
-                        class="form-control" 
-                        style="border-bottom: 1px solid #e8e8e8 !important;  opacity:0.65;"
-                        id="exampleInputPassword1" 
-                        placeholder="Password">
-                </div>
+    <div class="container" style="text-align: center; font-size: 21px;height: 80%;align-items: center;justify-content: center;display: flex;flex-direction: column;">
+        <div style="font-size: 26px">
+            Logging out
 
-				<button name="submit" type="submit" class="btn btn-primary"> Login</button>
-				<button type='button' class='btn' id='register' style='opacity: 0.65'> Register </button>
-			</form>
-			
+            <?php 
+                session_start();
+                session_unset();
+                session_destroy();
+                
+                // header("Location: ../index.php");
+                header( "refresh:2;url=../index.php" );
+            ?>
+        </div>
+
+        <div style="opacity: 0.45">
+            You will be redirected to the home page.
         </div>
     </div>
 
@@ -145,17 +125,6 @@
 				swal(nameProduct, "is added to wishlist !", "success");
 			});
 		});
-
-		var registerBtn = document.getElementById('register');
-		registerBtn.addEventListener('click', function() {
-			window.location.href='register.php';
-		})
-
-		var urlParams = new URLSearchParams(window.location.search);
-		var regParam = urlParams.get('register');
-		if(regParam == 'success') {
-			alert("Successfully created an account");
-		}
 	</script>
 
 <!--===============================================================================================-->

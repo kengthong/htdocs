@@ -140,16 +140,12 @@
                 </h3>
             </div>
 
-            <style>
-            .error {color: #FF0000;}
-            </style>
-
-            <p><span class="error">* required field</span></p>
+            <p>*All fields are required*</p>
             <form action="addListings.php" method="post">
-                Name: <input type="text" name="nameinput"><br>
-                Location of collection: <input type ="text" name ="locationinput"><br>
-                starting bid: <input type ="integer" name ="startingbidinput"><br>
-                total quantity:<input type ="integer" name ="quantityinput"><br>
+                Name: <input type="text" name="nameinput"><?php echo $nameErr;?><br>
+                Location of collection: <input type ="text" name ="locationinput"><?php echo $locationErr;?><br>
+                starting bid: <input type ="integer" name ="startingbidinput"><?php echo $bidErr;?><br>
+                total quantity:<input type ="integer" name ="quantityinput"><?php echo $quantityErr;?><br>
                 Bid closing date: <input type="date" name="dateinput" value="<?php echo date('d/m/y'); ?>" /><br/>
                 loan duration:<br>
                 <input type="radio" name="durationinput" value="1" checked> 1<br>
@@ -158,7 +154,7 @@
                 <input type="radio" name="durationinput" value="14"> 14<br>
                 
                 <br>
-                <input type="submit" name="submit" value="Submit"> 
+        <input type="submit" name="submit" value="Submit"> 
             </form>
 
             
@@ -179,7 +175,7 @@
                 <img src="..\images\icons\Listings Icons\pencil.png" alt="update Listings" style="width:100px;height:100px;border:0;hspace=50">
                 <p>update listing  </p>
             </a>
-  
+
             <a href="deleteListings.php">
                 <img src="..\images\icons\Listings Icons\minus.png" alt="delete Listings" style="width:100px;height:100px;border:0;hspace=50">
                 <p>delete listing</p>

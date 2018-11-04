@@ -55,7 +55,8 @@
   <?php
     // Connect to the database. Please change the password in the following line accordingly
 
-    $db = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102proj user=postgres password=kengthong");	
+    //$db = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102proj user=postgres password=kengthong");	
+    $db = pg_connect("host=127.0.0.1  port=8000 dbname=fashe user=postgres password=Password1");
     // $queryString = "INSERT INTO book (name, price) values ('$POST[name]', '$POST[price]');";
     // $queryString = "SELECT * FROM book WHERE book_id = '$_POST[bookid]'";
     $queryString = "

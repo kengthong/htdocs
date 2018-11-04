@@ -640,7 +640,7 @@ iframe {
 
 
 /*[ Header Desktop ]
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+-----------------------------------------------------------*/
 
 .container-menu-header {
   width: 100%;
@@ -656,10 +656,10 @@ iframe {
 }
 
 /*[ Top bar ]
-===========================================================*/
+-----------------------------------------------------------*/
 .topbar {
   height: 45px;
-  background-color: #f5f5f5;
+  background-color: #f5f5f1;
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -719,8 +719,20 @@ iframe {
 }
 
 
+/*[ Listing Nav bar ]
+-----------------------------------------------------------*/
+/* Three image containers (use 25% for four, and 50% for two, etc) */
+.navbar {
+  float: center;
+  width: 100%;
+  padding: 5px;
+  color: red;
+}
+
+/* ------------------------------------ */
+
 /*[ Menu ]
-===========================================================*/
+-----------------------------------------------------------*/
 .wrap_header {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1080,7 +1092,7 @@ li.sale-noti > a {
 
 
 /*[ Header Mobile ]
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+-----------------------------------------------------------*/
 .wrap_header_mobile {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1230,7 +1242,7 @@ li.sale-noti > a {
 
 .side-menu .sub-menu > li {
   padding-left: 12px;
-  /* padding-top:  */
+  padding-top: 12px;
 }
 
 .side-menu .sub-menu a:hover {
@@ -1349,7 +1361,7 @@ li.sale-noti > a {
 }
 
 /*[ Menu ]
-===========================================================*/
+-----------------------------------------------*/
 .container-menu-header-v3 .wrap_header {
   display: -webkit-box;
   display: -webkit-flex;

@@ -16,7 +16,7 @@ current_bid numeric(12, 2) NOT NULL DEFAULT 0, owner_id integer,
 total_quantity integer NOT NULL, current_quantity integer NOT NULL, bid_closing_date date NOT NULL,
 loan_duration integer NOT NULL,
 PRIMARY KEY (entry_id),
-FOREIGN KEY owner_id REFERENCES users(user_id)
+FOREIGN KEY (owner_id) REFERENCES users(user_id)
 )
 --bid record
 CREATE TABLE bid_record

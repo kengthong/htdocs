@@ -140,8 +140,8 @@
                 </h3>
             </div>
 
-                <p>*All fields are required*</p>
-                <form action="addListings.php" method="post">
+                <p>*Key in details of your listing for search and update*</p>
+                <form action="updateListings.php" method="post">
                 Name of item: <input type="text" name="nameinput"><?php echo $nameErr;?><br>
                 Email: <input type ="text" name ="emailinput"><?php echo $emailErr;?><br>
                 Location of collection: <input type ="text" name ="locationinput"><?php echo $locationErr;?><br>
@@ -155,8 +155,8 @@
                 <input type="radio" name="durationinput" value="14"> 14<br>
                 
                 <br>
-            <input type="submit" name="submit" value="Submit"> 
-            </form>
+        <input type="submit" name="submit" value="Submit"> 
+            </form> 
                 
             
             
@@ -177,7 +177,7 @@
                 <img src="..\images\icons\Listings Icons\pencil.png" alt="update Listings" style="width:100px;height:100px;border:0;hspace=50">
                 <p>update listing  </p>
             </a>
-  
+
             <a href="deleteListings.php">
                 <img src="..\images\icons\Listings Icons\minus.png" alt="delete Listings" style="width:100px;height:100px;border:0;hspace=50">
                 <p>delete listing</p>

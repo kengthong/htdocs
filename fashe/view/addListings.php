@@ -142,7 +142,8 @@
 
             <p>*All fields are required*</p>
             <form action="addListings.php" method="post">
-                Name: <input type="text" name="nameinput"><?php echo $nameErr;?><br>
+                Name of item: <input type="text" name="nameinput"><?php echo $nameErr;?><br>
+                Email: <input type ="text" name ="emailinput"><?php echo $emailErr;?><br>
                 Location of collection: <input type ="text" name ="locationinput"><?php echo $locationErr;?><br>
                 starting bid: <input type ="integer" name ="startingbidinput"><?php echo $bidErr;?><br>
                 total quantity:<input type ="integer" name ="quantityinput"><?php echo $quantityErr;?><br>

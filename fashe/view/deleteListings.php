@@ -139,59 +139,17 @@
                     Select an existing Listings to delete
                 </h3>
             </div>
-            
-            <!-- SQL code to retrieve My listings -->
-            <div class="wrap-slick2" style="display: flex; flex-flow: row wrap">
 
-                <?php 
-                    $db = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102Project user=postgres password=kengthong");	
-                    $queryString = "
-                    SELECT DISTINCT name, entry_id, current_bid, total_quantity, current_quantity, loan_duration, bid_closing_date
-                    FROM entry e
-                    WHERE userid = inputId
-                    ORDER BY bid_closing_date DESC 
-                    LIMIT 12;";
-
-                    $result = pg_query($db, $queryString);
-
-                    if($result) {
-                        if(pg_num_rows($result) >0) {
-                            $i = 1;
-                            while($oneRecord = pg_fetch_array($result)) {
-                                echo"
-                                    <div class='item-slick2 p-l-15 p-r-15' style='height: 431px; width: 300px; max-width: 25%; margin-top: 8px; margin-bottom: 8px'>
-                                        <!-- Block2 -->
-                                        <div class='block2' style='border: 1px solid #e8e8e8; border-radius: 8px;'>
-                                            <a href='item-detail/index.php?id=$oneRecord[entry_id]' class='block2-img wrap-pic-w of-hidden pos-relative block2-labelnew'>
-                                                <div style='width: 270px; height: 320px; justify-content:center; align-items: center; display: flex;'>
-                                                    <img src='https://loremflickr.com/320/240/gadgets?lock=$i' alt=''>
-                                                </div>
-                                            </a>
-
-                                            <div class='block2-txt p-t-20'>
-                                                <div style='width: 95%; padding: 8px; margin-left: auto; margin-right: auto; border-top: 1px solid #e8e8e8'>
-                                                    <a href='product-detail.html?id=$oneRecord[entry_id]' style='font-size: 16px'>
-                                                        $oneRecord[name]
-                                                    </a>
-
-                                                    <span class='block2-name dis-block s-text3 p-b-5' style='opacity:0.8'>
-                                                        Current Bid: $$oneRecord[current_bid]
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ";
-
-                                $i=$i+10;
-                            }
-                        } else {
-                            echo "No data";
-                        }
-                    } else {
-                        echo" failed to query";
-                    }
-                ?>
+            <div>
+            <p>*Key in details of listing to be deleted*</p>
+            <form action="addListings.php" method="post">
+                Name of item: <input type="text" name="nameinput"><?php echo $nameErr;?><br>
+                username:<input type ="text" name ="usernameinput"><?php echo $usernameErr;?><br>
+                User Email: <input type ="text" name ="emailinput"><?php echo $emailErr;?><br>
+                
+                <br>
+        <input type="submit" name="submit" value="Submit"> 
+            </form>
                 
             </div>
             

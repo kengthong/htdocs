@@ -34,18 +34,18 @@ function test_input($data) {
 if(isset($_POST['submit'])) {
 
     $db = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102Project user=postgres password=kengthong");
-    $ownerID = pg_query($db, "SELECT user_id from users WHERE emailInput = email AND usernameInput = username")
+    $ownerID = pg_query($db, "SELECT DISTINCT user_id from users WHERE $_POST[emailInput] = email AND $_POST[usernameInput] = username");
 
     //tried to implement ownerID from input fields
-    $queryString = "DELETE FROM entry WHERE name= nameinput;"
+    $queryString = "DELETE FROM entry WHERE name = $_POST[nameinput] AND $ownerID = user_id;";
 
     $result = pg_query($db, $queryString);
 
     // $result = pg_query($db, "SELECT * FROM book WHERE book_id = '$_POST[bookid]'");		// Query template
     if (!$result) {
-            echo "Failed to add!";
+            echo "Failed to delete!";
         } else {
-            echo "Successfully added!";
+            echo "Successfully deleted!";
         }
     }
 ?>

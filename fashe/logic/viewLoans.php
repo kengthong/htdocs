@@ -6,12 +6,11 @@ $username = "postgres"; //username
 $password = "password"; //pass
 $dbname = "fashe";
 $table = "items_on_loan"; //table name
-$userid = 1;
+$userid = 1; //1 for testing, was thinking of $_SESSION[user_id];
 
 //Create connection
 $db = pg_connect($servername, $portnum, $dbname, $username, $password);
 
-//num is autoincrement serial num(borrowed items ID), item_name is item name + image, start_from is start date, return by is end date, owner received is boolean true/false.
 $sql = 
 "SELECT item_name, item_img, start_from, return_by, owner_received
 FROM $table
@@ -24,9 +23,8 @@ if (! $result) {
   die("Could not get data: ");
 }
   //output data of each row
-  //item_name needs to return item_img too. 
 echo "<table>";
-$serial = 1;
+$serial = 1; //s/n of num of borrowed items.
 while($row = pg_fetch_array($result)){
   if($row[owner_received]) {
     continue;
@@ -36,7 +34,7 @@ while($row = pg_fetch_array($result)){
   $datediff = $date_diff($startdate, $enddate);
   $status = "borrowed";
   
-
+//item_img is the item pic.
   echo "<tr><td>" . $serial++ . "</td><td>" .$row["item_name"] ."</td>"?>
    <img src="<?php echo $row["item_img"]; ?>" height="50px" width="50px"> 
    <?php echo "</td><td>" . $datediff->format('%a') . "</td><td>" .$row["return_by"] ."</td><td>" .$status ."</td></tr>";

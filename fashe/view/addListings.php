@@ -107,7 +107,7 @@
 
                                 <li class="header-cart-item">
                                     <a href="../items-on-loan/index.php">
-                                        Items On Loan
+                                        My borrowed items
                                     </a>
                                 </li>
 

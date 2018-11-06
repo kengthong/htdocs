@@ -1,12 +1,30 @@
 
 <?php 
-    session_start();
+	session_start();
+	$parts = parse_url($_SERVER['REQUEST_URI']);
+	parse_str($parts['query'], $query);
+	$db = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102Project user=postgres password=kengthong");	
+	// $queryString = "
+	// SELECT DISTINCT name, location, description, starting_bid, image_path, entry_id, current_bid, total_quantity, current_quantity, loan_duration, bid_closing_date, owner_id
+	// FROM entry
+	// WHERE entry_id = " . $query['id'] . ";"; 
+	$queryString = "
+	SELECT DISTINCT e.name, available, e.location, e.description, e.starting_bid, e.image_path, e.entry_id, e.current_bid, e.total_quantity, e.current_quantity, e.loan_duration, e.bid_closing_date, e.owner_id, bir.user_id as bidder_id
+	FROM entry e LEFT OUTER JOIN bid_record bir
+	ON e.entry_id = bir.entry_id
+	WHERE e.entry_id = $query[id];";
+
+	$_SESSION['active_entry_id'] = $query['id'];
+	
+	// echo $queryString;
+	$result = pg_query($db, $queryString);
+	$row = pg_fetch_assoc($result);		
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Items On Loan</title>
+	<title>My borrowed items</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->
@@ -80,55 +98,91 @@
 				</a>
 
 				<!-- Header Icon -->
-				<div class="header-icons">
-                    <div class="list-an-item-btn">
-                        <a href="../list-an-item/index.php" class="header-wrapicon1 dis-block">
-                            List An Item
-                        </a>
-                    </div>
+				<div class='header-icons'>
+					<div class='list-an-item-btn'>
+						<a href='list-an-item.php' class='header-wrapicon1 dis-block'>
+							List An Item
+						</a>
+					</div>
 
-					<span class="linedivide1"></span>
+					<span class='linedivide1'></span>
 
-					<div class="header-wrapicon2 js-show-header-dropdown header-icon1" style="width: 52px">
-                        <img src="../images/icons/icon-header-01.png" class="header-icon1" alt="ICON">
-                        <span class="header-icon-notif">0</span>
-                        <span class="caret"></span>
+					<?php 
+						$login = isset($_SESSION['username']);
 
-                        <!-- Header cart noti -->
-                        <div class="header-user header-dropdown">
-                            <ul class="header-cart-wrapitem">
-                                <li class="header-cart-item">
-                                    <a href="../my-listings/index.php">
-                                        My Listings
-                                    </a>
-								</li>
-								
-								<li class="header-cart-item">
-                                    <a href="../my-bids/index.php">
-                                        My Bids
-                                    </a>
-                                </li>
+						if($query['bid'] == 'success') {
+							echo '<script type="text/javascript">'; 
+							echo 'alert("Successfully submitted the bid");'; 
+							echo 'window.location.href = "../index.php";';
+							echo '</script>';
+						}
 
-                                <li class="header-cart-item">
-                                    <a href="../items-on-loan/index.php">
-                                        Items On Loan
-                                    </a>
-                                </li>
+						if($query['bid'] == 'error'){
+							echo "<script type='text/javascript'> 
+								alert('Failed to add item. Please make sure that all fields are filled correctly.');
+							</script>";
+						}
 
-                                <li class="header-cart-item">
-                                    <a href="../settings/profile.php">
-                                        Setting
-                                    </a>
-                                </li>
+						if($login) {
+							echo "
+							<!-- Header Icon -->
+									
 
-                                <li class="header-cart-item">
-                                    <a href="#">
-                                        Log Out
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+								<div class='header-wrapicon2 js-show-header-dropdown header-icon1' style='width: 52px'>
+									<img src='../images/icons/icon-header-01.png' class='header-icon1' alt='ICON'>
+									<span class='header-icon-notif'>0</span>
+									<span class='caret'></span>
+
+									<!-- Header cart noti -->
+									<div class='header-user header-dropdown' style='width: 200px'>
+										<div style='border-bottom: 1px solid #e8e8e8; padding-bottom: 8px; display:flex; justify-content: flex-end'>
+											$_SESSION[name]
+										</div>
+										<ul class='header-cart-wrapitem' style='align-items: flex-end;display: flex; flex-direction: column;'>
+											<li class='header-cart-item'>
+												<a href='my-listings.php'>
+													My Listings
+												</a>
+											</li>
+
+											<li class='header-cart-item'>
+												<a href='borrowed-items.php'>
+													My borrowed items
+												</a>
+											</li>
+
+											<li class='header-cart-item'>
+												<a href='settings/profile.php'>
+													Setting
+												</a>
+											</li>
+
+											<li class='header-cart-item'>
+												<a href='logout.php'>
+													Log Out
+												</a>
+											</li>
+										</ul>
+									</div>	
+								</div>	
+								";
+						} else {
+							//prompt login button
+							echo "
+								<button type='submit' id='loginBtn'>
+									Log In
+								</button>
+							";
+
+							echo "
+							<script type='text/javascript'>
+								document.getElementById('loginBtn').onclick = function () {
+									location.href = 'login.php';
+								};
+							</script>
+							";
+						}
+					?>
 				</div>
 			</div>
 		</div>
@@ -158,136 +212,244 @@
 	</div>
 
 	<?php 
-		$parts = parse_url($_SERVER['REQUEST_URI']);
-		parse_str($parts['query'], $query);
-		$db = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102Project user=postgres password=kengthong");	
-		$queryString = "
-		SELECT DISTINCT name, entry_id, current_bid, total_quantity, current_quantity, loan_duration, bid_closing_date
-		FROM entry 
-		WHERE entry_id = " . $query['id'] . ";"; 
+		if(!$result || $row['available'] == false) {
+			echo"redirect to error page?";
+			echo "<script type='text/javascript'> document.location = 'error-page.php'; </script>";
+		}
+	?>
 
-		$_SESSION['active_entry_id'] = $query['id'];
-		
-		// echo $queryString;
-		$result = pg_query($db, $queryString);
-		$row = pg_fetch_assoc($result);		
-		if($result) {
-
-			$amount_left = $row['total_quantity'] - $row['current_quantity'];
-			echo "
-				<!-- Product Detail -->
-				<div class='container bgwhite p-t-35 p-b-80'>
-					<div class='flex-w flex-sb'>
-						<div class='w-size13 p-t-30 respon5'>
-							<div class='wrap-slick3 flex-sb flex-w'>
-								<!-- <div class='wrap-slick3-dots'></div> -->
-								
+	<!-- Product Detail -->
+	<div class='container bgwhite p-t-35 p-b-80'>
+		<div class='flex-w flex-sb'>
+			<div class='w-size13 p-t-30 respon5'>
+				<div class='wrap-slick3 flex-sb flex-w'>
+					<!-- <div class='wrap-slick3-dots'></div> -->
+					
+					<?php
+						if($row['image_path'] != "-") {
+							echo"
+								<div>
+									<img src='$row[image_path]' alt='hi' style='max-width: 500px; max-height: 500px'/>
+								</div>
+							";
+						} else {
+							echo"
 								<div>
 									<img src='https://picsum.photos/500/666' alt='hi' width='500px'/>
 								</div>
-			
+							";
+						}
+					?>
+
+					
+				</div>
+			</div>
+
+			<div class='w-size14 p-t-30 respon5'>
+				<div style='width: 100%; display: flex;'>
+					<div style='width: 70%'>
+						<h4 class='m-text17'>
+							<?php echo "$row[name]"; ?>
+						</h4>
+		
+						<div class='product-detail-name m-text16 p-b-13' style='width: 100%'>
+							<?php 
+								if($current_bid != '0') {
+									echo"
+									<div style='width: 100%;opacity: 0.6; '>
+										Current Bid: $ $row[current_bid] 
+									</div>"; 
+									if($_SESSION['user_id'] == $row['owner_id'] && $row['bidder_id'] != null ) {
+										echo"
+											<form action='../logic/accept-bid.php' method='POST'>
+												<button type='submit' name='accept_bid' class='btn-primary btn' id='accept' style='font-size: 14px;'>
+													Accept Bid
+												</button>
+											</form>
+										";
+									}
+								} else {
+									echo"Starting Bid: $row[starting_bid]";
+								}
+							
+							?>
+						</div>
+
+						<div style='font-size: 14px; font-weight: 600; opacity: 0.6; width: 100%'>
+							<?php echo"Quantity Available: $row[current_quantity]/$row[total_quantity]"; ?>
+						</div>
+					</div>
+
+					<?php 
+						if($_SESSION['admin'] == true || $_SESSION['user_id'] == $row['owner_id']){
+							echo "
+								<div style='width: 30%' >
+									<div class='btn-group'>
+										<button  class = 'edit-btn' id='edit'>
+											Edit 
+										</button>
+										<button class='delete-btn' id='delete' > 
+											Delete 
+										</button>
+									</div>
+								</div>";
+
+							echo "
+							<script>
+								var editBtn = document.getElementById('edit');
+								editBtn.addEventListener('click', function() {
+									location.href = 'edit-an-item.php?id=$row[entry_id]';
+								})
+
+								var deleteBtn = document.getElementById('delete');
+								deleteBtn.addEventListener('click', function() {
+									$.ajax({
+										type: 'POST',
+										url: '../logic/delete-listing.php',
+										data:{
+											entry_id:'$row[entry_id]',
+
+										},
+										success:function(response) {
+											console.log('hi');
+											console.log(response);
+										}
+							
+									});
+									console.log('here');
+								}); 
+
+								var acceptBtn = document.getElementById('accept');
+								acceptBtn.addEventListener('click', function() {
+									location.href = 'edit-an-item.php?id=$row[entry_id]';
+								})
+
 								
+									
+							</script>";
+						};
+					?>
+				</div> 
+
+				<div class='wrap-dropdown-content bo6 p-t-15 p-b-14 active-dropdown-content'>
+					<h5 class='js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4'>
+						Description
+						<i class='down-mark fs-12 color1 fa fa-minus dis-none' aria-hidden='true'></i>
+						<i class='up-mark fs-12 color1 fa fa-plus' aria-hidden='true'></i>
+					</h5>
+
+					<div class='dropdown-content dis-none p-t-15 p-b-23'>
+						<p class='s-text8'>
+							<?php 
+								$description = $row['description'];
+								if($description) {
+									echo"
+										$description
+									";
+								} else {
+									echo"
+										No description
+									";
+								}
+							?>
+						</p>
+						<p class='s-text8'
+							<?php echo"Bid closes at $row[bid_closing_date]";?>
+						</p>
+					</div>
+				</div>
+
+				<div class='wrap-dropdown-content bo7 p-t-15 p-b-14'>
+					<h5 class='js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4'>
+						Additional information
+						<i class='down-mark fs-12 color1 fa fa-minus dis-none' aria-hidden='true'></i>
+						<i class='up-mark fs-12 color1 fa fa-plus' aria-hidden='true'></i>
+					</h5>
+
+					<div class='dropdown-content dis-none p-t-15 p-b-23'>
+						<div style='width: 100%; display:flex'>
+							<div style='width: 30%; font-size: 14px; font-weight: 600; opacity: 0.8'>
+								Location:
+							</div>
+							<div class='s-text8' style='width: 70%'>
+								<?php echo"$row[location]"; ?>
 							</div>
 						</div>
-			
-						<div class='w-size14 p-t-30 respon5'>
-							<h4 class='m-text17'>
-								$row[name]
-							</h4>
-			
-							<span class='product-detail-name m-text16 p-b-13' style='opacity: 0.6'>
-								Current Bid: $$row[current_bid]
-							</span>
-			
-							<p class='s-text8 p-t-10'>
-								Nulla eget sem vitae eros pharetra viverra. Nam vitae luctus ligula. Mauris consequat ornare feugiat.
-							</p>
-			
-							<!--  -->
-							<div class='p-t-33 p-b-60'>
-								<div class='flex-r-m flex-w p-t-10'>
-									<div class='w-size16 flex-m flex-w'>
-										<div class='flex-w bo5 of-hidden m-r-22 m-t-10 m-b-10'>
-											<button class='btn-num-product-down color1 flex-c-m size7 bg8 eff2'>
-												<i class='fs-12 fa fa-minus' aria-hidden='true'></i>
-											</button>
-			
-											<input class='size8 m-text18 t-center num-product' type='number' name='num-product' value='1'>
-			
-											<button class='btn-num-product-up color1 flex-c-m size7 bg8 eff2'>
-												<i class='fs-12 fa fa-plus' aria-hidden='true'></i>
-											</button>
-										</div>
-			
-										<div class='btn-addcart-product-detail size9 trans-0-4 m-t-10 m-b-10'>
-											<!-- Button -->
-											<button class='flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4'>
-												Add to Cart
-											</button>
-										</div>
-									</div>
-								</div>
+
+						<div style='width: 100%; display:flex'>
+							<div style='width: 30%; font-size: 14px; font-weight: 600; opacity: 0.8'>
+								Loan Duration:
 							</div>
-			
-							<div class='p-b-45'>
-								<span class='s-text8 m-r-35'>SKU: MUG-01</span>
-								<span class='s-text8'>Categories: Mug, Design</span>
-							</div>
-			
-							<!--  -->
-							<div class='wrap-dropdown-content bo6 p-t-15 p-b-14 active-dropdown-content'>
-								<h5 class='js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4'>
-									Description
-									<i class='down-mark fs-12 color1 fa fa-minus dis-none' aria-hidden='true'></i>
-									<i class='up-mark fs-12 color1 fa fa-plus' aria-hidden='true'></i>
-								</h5>
-			
-								<div class='dropdown-content dis-none p-t-15 p-b-23'>
-									<p class='s-text8'>
-										Fusce ornare mi vel risus porttitor dignissim. Nunc eget risus at ipsum blandit ornare vel sed velit. Proin gravida arcu nisl, a dignissim mauris placerat
-									</p>
-								</div>
-							</div>
-			
-							<div class='wrap-dropdown-content bo7 p-t-15 p-b-14'>
-								<h5 class='js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4'>
-									Additional information
-									<i class='down-mark fs-12 color1 fa fa-minus dis-none' aria-hidden='true'></i>
-									<i class='up-mark fs-12 color1 fa fa-plus' aria-hidden='true'></i>
-								</h5>
-			
-								<div class='dropdown-content dis-none p-t-15 p-b-23'>
-									<p class='s-text8'>
-										Fusce ornare mi vel risus porttitor dignissim. Nunc eget risus at ipsum blandit ornare vel sed velit. Proin gravida arcu nisl, a dignissim mauris placerat
-									</p>
-								</div>
-							</div>
-			
-							<div class='wrap-dropdown-content bo7 p-t-15 p-b-14'>
-								<h5 class='js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4'>
-									Reviews (0)
-									<i class='down-mark fs-12 color1 fa fa-minus dis-none' aria-hidden='true'></i>
-									<i class='up-mark fs-12 color1 fa fa-plus' aria-hidden='true'></i>
-								</h5>
-			
-								<div class='dropdown-content dis-none p-t-15 p-b-23'>
-									<p class='s-text8'>
-										Fusce ornare mi vel risus porttitor dignissim. Nunc eget risus at ipsum blandit ornare vel sed velit. Proin gravida arcu nisl, a dignissim mauris placerat
-									</p>
-								</div>
+							<div class='s-text8' style='width: 70%'>
+								<?php echo"$row[loan_duration]"; ?>
 							</div>
 						</div>
 					</div>
 				</div>
-			";
-		} else {
-			echo"failed";
-		}
 
+				<!--  -->
+				<?php
+					if($_SESSION['user_id'] && $_SESSION['user_id'] != $row['owner_id'] && $row['current_quantity'] != '0') {
+						echo"
+						<div class='p-t-33 p-b-60'>
+							<div class='flex-r-m flex-w p-t-10:' style='flex-direction: column; display: flex'>
+								<form action='../logic/make-bid.php' method='POST'>
+									<div style='width: 100%; display: flex; flex-direction: row'>
+										<div style='width: 30%'>
+											Bidding Price: 
+										</div>
+										<div style='width: 70%'>
+											<span>$</span>
+											<input name='new_bid' style='border: 2px solid #e6e6e6 !important; border-radius: 3px;'/>
+										</div>
+									</div>
+									<div class='flex-m flex-w' style='width: 100%; padding-left: 8px;'>
+										<div style='display: flex; flex-direction: row; align-items: center; margin-left: -8px;margin-right: 16px;'>
+											<div class='flex-w bo5 of-hidden m-r-22 m-t-10 m-b-10'>
 
-		//LIST BIDS (ONLY CAN BE DONE AFTER BIDS_RECORD IS POPULATED)
-		
-	?>
+												<input name='quantity' class='size8 m-text18 t-center num-product' id='quantityInput'type='number' name='num-product' value='1' max='$row[current_quantity]'>
+											</div>
+											out of $row[current_quantity]
+										</div>
+
+										<div class='btn-addcart-product-detail size9 trans-0-4 m-t-10 m-b-10'>
+											<!-- Button -->
+											<button id='submitBid' type='submit' name='submit' class='flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4'>
+												Make Bid
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+						";
+					}
+
+					$bid = $query['bid'];
+					echo"
+						<script type='text/javascript'>
+							var quantityInput = document.getElementById('quantityInput');
+							if(quantityInput) {
+								quantityInput.addEventListener('change', function(){
+									console.log('quantityInput.value', quantityInput.value);
+									console.log('quantityInput.innerHtml', quantityInput.innerHtml);
+									if(quantityInput.value > $row[current_quantity]){
+										quantityInput.value = $row[current_quantity];
+									}
+	
+								})
+							}
+						</script>
+					";
+
+				?>
+				
+
+				
+
+			</div>
+		</div>
+	</div>
 
 	<!-- Footer -->
 	<footer class="bg6 p-t-45 p-b-43 p-l-45 p-r-45">

@@ -145,7 +145,8 @@
 				</tr>
 				
 				<?php include('../logic/viewLoans.php');?>
-
+<!--button to tick returned-->
+<!--logic for changing returned to true-->
 			</table>
 		</div>
     </div>

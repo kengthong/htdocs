@@ -1,3 +1,12 @@
+<?php 
+    session_start();
+    $login = isset($_SESSION['username']);
+
+    if(!$login) {
+        header( "Location: error-page.php");
+    }
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,63 +79,81 @@
             </div>
 
             <div class="wrap_header">
-                <!-- Logo -->
-                <a href="../index.php" class="logo">
-                    <img src="../images/cs2102.png" alt="IMG-LOGO" style="width: 80px">
-                </a>
+				<!-- Logo -->
+				<a href="../index.php" class="logo">
+					<img src="../images/cs2102.png" alt="IMG-LOGO" style="width: 80px">
+				</a>
 
-                <!-- Header Icon -->
-                <div class="header-icons">
-                    <div class="list-an-item-btn">
-                        <a href="../list-an-item/index.php" class="header-wrapicon1 dis-block">
-                            List An Item
-                        </a>
-                    </div>
+				<!-- Header Icon -->
+				<div class='header-icons'>
 
-                    <span class="linedivide1"></span>
+					<span class='linedivide1'></span>
 
-                    <div class="header-wrapicon2 js-show-header-dropdown header-icon1" style="width: 52px">
-                        <img src="../images/icons/icon-header-01.png" class="header-icon1" alt="ICON">
-                        <span class="header-icon-notif">0</span>
-                        <span class="caret"></span>
+					<?php 
+						$login = isset($_SESSION['username']);
 
-                        <!-- Header cart noti -->
-                        <div class="header-user header-dropdown">
-                            <ul class="header-cart-wrapitem">
-                                <li class="header-cart-item">
-                                    <a href="../my-listings/index.php">
-                                        My Listings
-                                    </a>
-                                </li>
-                                
-                                <li class="header-cart-item">
-                                    <a href="../my-bids/index.php">
-                                        My Bids
-                                    </a>
-                                </li>
+						if($login) {
+							echo "
+                                <!-- Header Icon -->
+                                        
 
-                                <li class="header-cart-item">
-                                    <a href="../items-on-loan/index.php">
-                                        Items On Loan
-                                    </a>
-                                </li>
+                                <div class='header-wrapicon2 js-show-header-dropdown header-icon1' style='width: 52px'>
+                                    <img src='../images/icons/icon-header-01.png' class='header-icon1' alt='ICON'>
+                                    <span class='header-icon-notif'>0</span>
+                                    <span class='caret'></span>
 
-                                <li class="header-cart-item">
-                                    <a href="../settings/profile.php">
-                                        Setting
-                                    </a>
-                                </li>
+                                    <!-- Header cart noti -->
+                                    <div class='header-user header-dropdown' style='width: 200px'>
+                                        <div style='border-bottom: 1px solid #e8e8e8; padding-bottom: 8px; display:flex; justify-content: flex-end'>
+                                            $_SESSION[name]
+                                        </div>
+                                        <ul class='header-cart-wrapitem' style='align-items: flex-end;display: flex; flex-direction: column;'>
+                                            <li class='header-cart-item'>
+                                                <a href='my-listings.php'>
+                                                    My Listings
+                                                </a>
+                                            </li>
 
-                                <li class="header-cart-item">
-                                    <a href="#">
-                                        Log Out
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                            <li class='header-cart-item'>
+                                                <a href='borrowed-items.php'>
+                                                    My borrowed items
+                                                </a>
+                                            </li>
+
+                                            <li class='header-cart-item'>
+                                                <a href='settings/profile.php'>
+                                                    Setting
+                                                </a>
+                                            </li>
+
+                                            <li class='header-cart-item'>
+                                                <a href='logout.php'>
+                                                    Log Out
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>	
+                                </div>							
+								";
+						} else {
+							//prompt login button
+							echo "
+								<button type='submit' id='loginBtn'>
+									Log In
+								</button>
+							";
+
+							echo "
+							<script type='text/javascript'>
+								document.getElementById('loginBtn').onclick = function () {
+									location.href = 'login.php';
+								};
+							</script>
+							";
+						}
+					?>
+				</div>
+			</div>
         </div>
     </header>
 
@@ -134,10 +161,18 @@
     <!-- Retrieve my current listings -->
     <section class="newproduct bgwhite p-t-45 p-b-105">
         <div class="container">
-            <div class="sec-title p-b-60">
-                <h3 class="m-text5 t-center">
-                    My Listings
+            <div class="sec-title p-b-60" >
+                <h3 class="m-text5 t-center" style='display: flex; flex-direction: row; justify-content: center; align-items: center;'>
+                    <div>
+                        My Listings
+                    </div>
+                    <span style='width: 20px'></span>
+                    <a href="my-listings.php">
+                        <img src="..\images\icons\Listings Icons\checklist.png" alt="delete Listings" style="width:100px;height:100px;border:20;hspace=50">
+                    </a>
                 </h3>
+
+                
             </div>
             
             <!-- SQL code to retrieve My listings -->
@@ -145,12 +180,15 @@
 
                 <?php 
                     $db = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102Project user=postgres password=kengthong");	
+                    
+
+                    $userId = $_SESSION['user_id'];
                     $queryString = "
-                    SELECT DISTINCT name, entry_id, current_bid, total_quantity, current_quantity, loan_duration, bid_closing_date
+                    SELECT *
                     FROM entry e
-                    WHERE userid = inputId
-                    ORDER BY bid_closing_date DESC 
-                    LIMIT 12;";
+                    WHERE e.owner_id = $userId
+                    ORDER BY bid_closing_date DESC;";
+
 
                     $result = pg_query($db, $queryString);
 
@@ -162,7 +200,7 @@
                                     <div class='item-slick2 p-l-15 p-r-15' style='height: 431px; width: 300px; max-width: 25%; margin-top: 8px; margin-bottom: 8px'>
                                         <!-- Block2 -->
                                         <div class='block2' style='border: 1px solid #e8e8e8; border-radius: 8px;'>
-                                            <a href='item-detail/index.php?id=$oneRecord[entry_id]' class='block2-img wrap-pic-w of-hidden pos-relative block2-labelnew'>
+                                            <a href='item-detail.php?id=$oneRecord[entry_id]' class='block2-img wrap-pic-w of-hidden pos-relative block2-labelnew'>
                                                 <div style='width: 270px; height: 320px; justify-content:center; align-items: center; display: flex;'>
                                                     <img src='https://loremflickr.com/320/240/gadgets?lock=$i' alt=''>
                                                 </div>

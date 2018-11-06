@@ -1,20 +1,11 @@
 <?php
     session_start();
-    if(isset($_SESSION['username'])) {
-        echo"
-            <div>
-                Redirecting
-            </div>
-        ";
-        
-        header("Location: ../index.php");
-    };
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Log In</title>
+	<title>Error Page</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->
@@ -65,52 +56,20 @@
 		</div>
 	</header>
 
-    <div class="container">
-        <div class='login-wrapper' style='border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px;'>
-            <form action="../logic/login.php" method="POST">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Username</label>
-                    <input 
-                        name="username" 
-                        type="text" 
-                        class="form-control" 
-                        style="border-bottom: 1px solid #e8e8e8 !important;   opacity:0.65;"
-                        placeholder="Username">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input 
-                        name="password" 
-                        type="password" 
-                        class="form-control" 
-                        style="border-bottom: 1px solid #e8e8e8 !important;  opacity:0.65;"
-                        id="exampleInputPassword1" 
-                        placeholder="Password">
-                </div>
+    <div class="container" style="text-align: center; font-size: 21px;height: 80%;align-items: center;justify-content: center;display: flex;flex-direction: column;">
+        <div style="font-size: 26px">
+            There was an error getting the page you wanted.
 
-				<button name="submit" type="submit" class="btn btn-primary"> Login</button>
-				<button type='button' class='btn' id='register' style='opacity: 0.65'> Register </button>
-			</form>
-			
+            <?php 
+                // header("Location: ../index.php");
+                header( "refresh:2;url=../index.php" );
+            ?>
         </div>
-	</div>
-	
-	<?php
-		$parts = parse_url($_SERVER['REQUEST_URI']);
-		parse_str($parts['query'], $query);
-		
-		$ableToLoggedIn = $query['login'];
 
-		if($ableToLoggedIn) {
-			if($ableToLoggedIn == 'error') {
-				echo "
-					<script type='text/javascript'> 
-						alert('Wrong username or password');
-					</script>
-				";
-			}
-		}
-	?>
+        <div style="opacity: 0.45">
+            You will be redirected to the home page.
+        </div>
+    </div>
 
 	<!-- Back to top -->
 	<div class="btn-back-to-top bg0-hov" id="myBtn">
@@ -162,11 +121,6 @@
 				swal(nameProduct, "is added to wishlist !", "success");
 			});
 		});
-
-		var registerBtn = document.getElementById('register');
-		registerBtn.addEventListener('click', function() {
-			window.location.href='register.php';
-		})
 	</script>
 
 <!--===============================================================================================-->

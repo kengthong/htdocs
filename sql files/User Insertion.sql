@@ -1,5 +1,8 @@
 --User insertion
 INSERT INTO users (name, email, password, contact_number, username, admin) 
+VALUES ('Woo Keng Thong', 'kengthong@gmail.com', 'password', '92216085', 'kengthong', true);
+
+INSERT INTO users (name, email, password, contact_number, username, admin) 
 VALUES ('Deborah Ruiz', 'druiz0@drupal.org', 'password1', '89840801', 'Deborah84', FALSE);
 
 INSERT INTO users (name, email, password, contact_number, username, admin) 

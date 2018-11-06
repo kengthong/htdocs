@@ -78,7 +78,7 @@
                 <!-- Header Icon -->
                 <div class="header-icons">
                     <div class="list-an-item-btn">
-                        <a href="../list-an-item/index.php" class="header-wrapicon1 dis-block">
+                        <a href="list-an-item.php" class="header-wrapicon1 dis-block">
                             List An Item
                         </a>
                     </div>
@@ -107,7 +107,7 @@
 
                                 <li class="header-cart-item">
                                     <a href="../items-on-loan/index.php">
-                                        Items On Loan
+                                        My borrowed items
                                     </a>
                                 </li>
 

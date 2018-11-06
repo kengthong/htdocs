@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Items On Loan</title>
+	<title>My borrowed items</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->
@@ -77,7 +77,7 @@
 				<!-- Header Icon -->
 				<div class="header-icons">
                     <div class="list-an-item-btn">
-                        <a href="../list-an-item/index.php" class="header-wrapicon1 dis-block">
+                        <a href="list-an-item.php" class="header-wrapicon1 dis-block">
                             List An Item
                         </a>
                     </div>
@@ -106,7 +106,7 @@
 
                                 <li class="header-cart-item">
                                     <a href="../items-on-loan/index.php">
-                                        Items On Loan
+                                        My borrowed items
                                     </a>
                                 </li>
 
@@ -131,8 +131,8 @@
 
     <!-- PUT YOUR CODE HERE -->
     <div>
-		<h1>Items on loan</h1>
-		Items on loan. View the paper for the various functions required. test
+		<h1>My borrowed items</h1>
+		My borrowed items. View the paper for the various functions required. test
 		
     </div>
 

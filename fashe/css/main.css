@@ -1,4 +1,18 @@
 /* Custom css */
+
+.btn-group {
+  border: 1px solid #e8e8e8;
+  border-radius: .25rem;
+  display: inline-block;
+  font-weight: 400;
+  white-space: nowrap;
+  vertical-align: middle;
+  font-size: 1rem;
+  line-height: 1.25;
+  border-radius: .25rem;
+  transition: all .15s ease-in-out;
+}
+
 .caret {
   display: inline-block;
   width: 0;
@@ -12,6 +26,16 @@
   position: absolute;
   right: 0px;
   top: 14px;
+}
+
+.delete-btn {
+  color: red;
+  padding: 8px 16px;
+}
+
+.edit-btn {
+  border-right: 1px solid #e8e8e8;
+  padding: 8px 16px;
 }
 
 .form-labels {
@@ -68,6 +92,17 @@
   transform: scale(0);
 }
 
+.image-placeholder {
+  height: 500px;
+  border: 1px solid #e8e8e8 !important;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  width: 100%;
+}
+
 .list-an-item-btn {
   color: 'black';
   border: 1px solid #e8e8e8;
@@ -118,6 +153,36 @@
 
 .register-row {
   padding-bottom: 8px;
+}
+
+.settings-big-box {
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  padding: 16px;
+  margin: 8px;
+}
+
+.settings-type-row {
+  padding: 10px 15px;
+}
+
+.settings-wrapper {
+  background: #edc963;
+  border: 1px solid #c9ced6;
+  margin: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  min-height: 600px;
+}
+
+.upload-image-btn {
+  border: 1px solid #e8e8e8 !important; 
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.upload-image-btn:hover {
+  cursor: pointer;
 }
 
 /*------------------------------------------------------------------

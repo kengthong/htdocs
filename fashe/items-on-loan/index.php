@@ -129,12 +129,27 @@
 		</div>
 	</header>
 
-    <!-- PUT YOUR CODE HERE -->
-    <div>
-		<h1>My borrowed items</h1>
-		My borrowed items. View the paper for the various functions required. test
-		
-    </div>
+    <!-- Input -->
+    <div class = "Items_On_Loan">
+		<div id = "loan_header">
+			<h1>Items on loan</h1> 
+		</div>	
+		<div class="loan_body">
+			<table style="width:80%">
+				<tr>
+					<th>S/N</th>
+					<th>Item</th>
+					<th>Duration Left</th>
+					<th>Return By</th>
+					<th>Status</th>
+				</tr>
+				
+				<?php include('../logic/viewLoans.php');?>
+<!--button to tick returned-->
+<!--logic for changing returned to true-->
+			</table>
+		</div>
+  </div>
 
 
 	<!-- Footer -->

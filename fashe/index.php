@@ -121,7 +121,7 @@
 											</li>
 
 											<li class='header-cart-item'>
-												<button type='submit' id='logoutBtn'>
+												<button  id='logoutBtn'>
 													Log Out
 												</button>
 												
@@ -132,24 +132,11 @@
 								";
 							echo"
 							<script type='text/javascript'>
-								document.getElementById('logoutBtn').onclick = function() {
+								var logoutBtn = document.getElementById('logoutBtn')
+								logoutBtn.addEventListener( 'click', function() {
 									console.log('clicked');
-									$.ajax({
-										type: 'POST',
-										url: 'logic/logout.php',
-										data: true,
-										cache: false,
-										// success: function(result){
-										// 	var result=trim(result);
-										// 	$('#flash').hide();
-										// 	if(result=='correct'){
-										// 		not1();
-										// 	}else{
-										// 		not2();
-										// 	}
-										// }
-									});
-								}
+									window.location.href ='view/logout.php';
+								});
 							</script>
 							";
 						} else {

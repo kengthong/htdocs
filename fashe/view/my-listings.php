@@ -121,6 +121,12 @@
                                             </li>
 
                                             <li class='header-cart-item'>
+                                                <a href='my-bids.php'>
+                                                    My bids
+                                                </a>
+                                            </li>
+
+                                            <li class='header-cart-item'>
                                                 <a href='settings/profile.php'>
                                                     Setting
                                                 </a>
@@ -214,6 +220,10 @@
 
                                                     <span class='block2-name dis-block s-text3 p-b-5' style='opacity:0.8'>
                                                         Current Bid: $$oneRecord[current_bid]
+                                                    </span>
+
+                                                    <span style='font-size: 10px;'>
+                                                        Bid closes at $oneRecord[bid_closing_date]
                                                     </span>
                                                 </div>
                                             </div>

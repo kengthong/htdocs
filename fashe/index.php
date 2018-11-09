@@ -79,7 +79,7 @@
 
 				<div class='header-icons'>
 					<div class='list-an-item-btn'>
-						<a href='list-an-item/index.php' class='header-wrapicon1 dis-block'>
+						<a href='view/list-an-item.php' class='header-wrapicon1 dis-block'>
 							List An Item
 						</a>
 					</div>
@@ -100,45 +100,38 @@
 									<span class='caret'></span>
 
 									<!-- Header cart noti -->
-									<div class='header-user header-dropdown'>
-										<ul class='header-cart-wrapitem'>
+									<div class='header-user header-dropdown' style='width: 200px'>
+										<div style='border-bottom: 1px solid #e8e8e8; padding-bottom: 8px; display:flex; justify-content: flex-end'>
+											$_SESSION[name]
+										</div>
+										<ul class='header-cart-wrapitem' style='align-items: flex-end;display: flex; flex-direction: column;'>
 											<li class='header-cart-item'>
-												<a href='my-listings/index.php'>
+												<a href='view/my-listings.php'>
 													My Listings
 												</a>
 											</li>
 
 											<li class='header-cart-item'>
-												<a href='borrowed-items/index.php'>
-													Items On Loan
+												<a href='view/borrowed-items.php'>
+													My borrowed items
 												</a>
 											</li>
 
 											<li class='header-cart-item'>
-												<a href='settings/profile.php'>
+												<a href='view/settings/profile.php'>
 													Setting
 												</a>
 											</li>
 
 											<li class='header-cart-item'>
-												<button  id='logoutBtn'>
+												<a href='view/logout.php'>
 													Log Out
-												</button>
-												
+												</a>
 											</li>
 										</ul>
 									</div>	
 								</div>							
 								";
-							echo"
-							<script type='text/javascript'>
-								var logoutBtn = document.getElementById('logoutBtn')
-								logoutBtn.addEventListener( 'click', function() {
-									console.log('clicked');
-									window.location.href ='view/logout.php';
-								});
-							</script>
-							";
 						} else {
 							//prompt login button
 							echo "
@@ -192,7 +185,7 @@
                                     <div class='item-slick2 p-l-15 p-r-15' style='height: 431px; width: 300px; max-width: 25%; margin-top: 8px; margin-bottom: 8px'>
                                         <!-- Block2 -->
                                         <div class='block2' style='border: 1px solid #e8e8e8; border-radius: 8px;'>
-                                            <a href='item-detail/index.php?id=$oneRecord[entry_id]' class='block2-img wrap-pic-w of-hidden pos-relative block2-labelnew'>
+                                            <a href='view/item-detail.php?id=$oneRecord[entry_id]' class='block2-img wrap-pic-w of-hidden pos-relative block2-labelnew'>
                                                 <div style='width: 270px; height: 320px; justify-content:center; align-items: center; display: flex;'>
                                                     <img src='https://loremflickr.com/320/240/gadgets?lock=$i' alt=''>
                                                 </div>

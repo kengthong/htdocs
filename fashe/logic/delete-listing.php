@@ -18,43 +18,6 @@
   }
   
   echo json_encode(array("success"=> true));
-  // if($_POST['entry_id']) {
-
-  //   $variable = 'success';
-  //   echo json_encode(array("blablabla"=>'success'));
-  // }
-
-
-  // $nameErr = $locationErr = $bidErr = $quantityErr = "";
-  // $nameinput = $locationinput = $startingbidinput = $quantityinput = $dateinput = $durationinput = "";
-
-  // if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  //   if (empty($_POST["nameinput"])) {
-  //     $nameErr = "Name is required";
-  //   } else {
-  //     $name = test_input($_POST["name"]);
-  //   }
-
-  //   if (empty($_POST["emailinput"])) {
-  //     $emailErr = "email is required";
-  //   } else {
-  //     $emailinput = test_input($_POST["emailinput"]);
-  //   }
-    
-  //   if (empty($_POST["usernameinput"])) {
-  //     $locationErr = "username is required";
-  //   } else {
-  //     $usernameinput = test_input($_POST["usernameinput"]);
-  //   }
-
-  // }
-
-  // function test_input($data) {
-  //   $data = trim($data);
-  //   $data = stripslashes($data);
-  //   $data = htmlspecialchars($data);
-  //   return $data;
-  // }
 
   if(isset($_POST['submit'])) {
 

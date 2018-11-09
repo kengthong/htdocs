@@ -10,7 +10,6 @@
                 $entryId = $query['id'];
                 $db = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102Project user=postgres password=kengthong");
 
-                //entry_id, name, location, starting_bid, current_bid, owner_id, total_quantity, current_quantity, bid_closing_date, loan_duration, active
                 if(isset($_POST['fileSubmitted'])) {
                     $filename = $_FILES['upload-image']['name'];
                     echo"file name = $filename";
@@ -26,7 +25,7 @@
 
                     if($filename !== '') {
                         $queryString = "
-                            UPDATE entry SET name = '$_POST[name]', description = '$_POST[description]', image_path = '$savedFileName', location ='$_POST[location]', starting_bid = $_POST[starting_bid], total_quantity = $_POST[total_quantity],
+                            UPDATE entry SET name = '$_POST[name]', description = '$_POST[description]', image_path = '$savedFileName', location ='$_POST[location]', starting_bid = $_POST[starting_bid],
                             bid_closing_date = '$_POST[bid_closing_date]', loan_duration = '$_POST[loan_duration]'
                             WHERE entry_id = '$entryId';
                         ";
@@ -37,8 +36,8 @@
                             echo"failed";
                         }
                     } else {
-                        $queryString = "
-                            UPDATE entry SET name = '$_POST[name]', description = '$_POST[description]',  location ='$_POST[location]', starting_bid = $_POST[starting_bid], total_quantity = $_POST[total_quantity],
+                        $queryString = " 
+                            UPDATE entry SET name = '$_POST[name]', description = '$_POST[description]',  location ='$_POST[location]', starting_bid = $_POST[starting_bid],
                             bid_closing_date = '$_POST[bid_closing_date]', loan_duration = '$_POST[loan_duration]'
                             WHERE entry_id = '$entryId';
                         ";

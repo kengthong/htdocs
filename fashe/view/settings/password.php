@@ -107,6 +107,12 @@
                                                 </li>
 
                                                 <li class='header-cart-item'>
+                                                    <a href='../my-bids.php'>
+                                                        My bids
+                                                    </a>
+                                                </li>
+
+                                                <li class='header-cart-item'>
                                                     <a href='../settings/profile.php'>
                                                         Setting
                                                     </a>

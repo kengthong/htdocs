@@ -4,12 +4,8 @@
 	$parts = parse_url($_SERVER['REQUEST_URI']);
 	parse_str($parts['query'], $query);
 	$db = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102Project user=postgres password=kengthong");	
-	// $queryString = "
-	// SELECT DISTINCT name, location, description, starting_bid, image_path, entry_id, current_bid, total_quantity, current_quantity, loan_duration, bid_closing_date, owner_id
-	// FROM entry
-	// WHERE entry_id = " . $query['id'] . ";"; 
 	$queryString = "
-	SELECT DISTINCT e.name, available, e.location, e.description, e.starting_bid, e.image_path, e.entry_id, e.current_bid, e.total_quantity, e.current_quantity, e.loan_duration, e.bid_closing_date, e.owner_id, bir.user_id as bidder_id
+	SELECT DISTINCT e.name, available, e.location, e.description, e.starting_bid, e.image_path, e.entry_id, e.current_bid, e.loan_duration, e.bid_closing_date, e.owner_id, bir.user_id as bidder_id
 	FROM entry e LEFT OUTER JOIN bid_record bir
 	ON e.entry_id = bir.entry_id
 	WHERE e.entry_id = $query[id];";
@@ -125,8 +121,8 @@
 
 						if($login) {
 							echo "
-							<!-- Header Icon -->
-									
+								<!-- Header Icon -->
+										
 
 								<div class='header-wrapicon2 js-show-header-dropdown header-icon1' style='width: 52px'>
 									<img src='../images/icons/icon-header-01.png' class='header-icon1' alt='ICON'>
@@ -152,6 +148,12 @@
 											</li>
 
 											<li class='header-cart-item'>
+												<a href='my-bids.php'>
+													My bids
+												</a>
+											</li>
+
+											<li class='header-cart-item'>
 												<a href='settings/profile.php'>
 													Setting
 												</a>
@@ -164,7 +166,7 @@
 											</li>
 										</ul>
 									</div>	
-								</div>	
+								</div>							
 								";
 						} else {
 							//prompt login button
@@ -389,28 +391,21 @@
 
 				<!--  -->
 				<?php
-					if($_SESSION['user_id'] && $_SESSION['user_id'] != $row['owner_id'] && $row['current_quantity'] != '0') {
+					if($_SESSION['user_id'] && $_SESSION['user_id'] != $row['owner_id']) {
 						echo"
 						<div class='p-t-33 p-b-60'>
 							<div class='flex-r-m flex-w p-t-10:' style='flex-direction: column; display: flex'>
-								<form action='../logic/make-bid.php' method='POST'>
+								<form action='../logic/make-bid.php' method='POST' style='width: 100%'>
 									<div style='width: 100%; display: flex; flex-direction: row'>
 										<div style='width: 30%'>
 											Bidding Price: 
 										</div>
-										<div style='width: 70%'>
+										<div style='width: 50%'>
 											<span>$</span>
 											<input name='new_bid' style='border: 2px solid #e6e6e6 !important; border-radius: 3px;'/>
 										</div>
 									</div>
-									<div class='flex-m flex-w' style='width: 100%; padding-left: 8px;'>
-										<div style='display: flex; flex-direction: row; align-items: center; margin-left: -8px;margin-right: 16px;'>
-											<div class='flex-w bo5 of-hidden m-r-22 m-t-10 m-b-10'>
-
-												<input name='quantity' class='size8 m-text18 t-center num-product' id='quantityInput'type='number' name='num-product' value='1' max='$row[current_quantity]'>
-											</div>
-											out of $row[current_quantity]
-										</div>
+									<div class='flex-m flex-w' style='width: 100%; padding-left: 8px;display: flex; justify-content: center'>
 
 										<div class='btn-addcart-product-detail size9 trans-0-4 m-t-10 m-b-10'>
 											<!-- Button -->
@@ -426,21 +421,6 @@
 					}
 
 					$bid = $query['bid'];
-					echo"
-						<script type='text/javascript'>
-							var quantityInput = document.getElementById('quantityInput');
-							if(quantityInput) {
-								quantityInput.addEventListener('change', function(){
-									console.log('quantityInput.value', quantityInput.value);
-									console.log('quantityInput.innerHtml', quantityInput.innerHtml);
-									if(quantityInput.value > $row[current_quantity]){
-										quantityInput.value = $row[current_quantity];
-									}
-	
-								})
-							}
-						</script>
-					";
 
 				?>
 				

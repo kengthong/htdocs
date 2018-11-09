@@ -169,7 +169,7 @@
                 <?php 
                     $db = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102Project user=postgres password=kengthong");	
                     $queryString = "
-                    SELECT DISTINCT name, entry_id, current_bid, total_quantity, current_quantity, loan_duration, bid_closing_date
+                    SELECT DISTINCT name, entry_id, current_bid, loan_duration, bid_closing_date
                     FROM entry e
                     WHERE bid_closing_date > now()
                     ORDER BY bid_closing_date DESC

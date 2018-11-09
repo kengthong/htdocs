@@ -3,7 +3,6 @@
 
     $db = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102Project user=postgres password=kengthong");
 
-    //entry_id, name, location, starting_bid, current_bid, owner_id, total_quantity, current_quantity, bid_closing_date, loan_duration, active
     if(isset($_POST['fileSubmitted'])) {
         $filename = $_FILES['upload-image']['name'];
         $filetmpname = $_FILES['upload-image']['tmp_name'];
@@ -14,8 +13,8 @@
         $savedFileName = $folder . $_POST['name']."." .$imageFileType;
 
         $queryString = "
-            INSERT INTO entry (name, description, image_path, location, starting_bid,current_bid,owner_id,total_quantity,current_quantity,bid_closing_date,loan_duration) 
-            VALUES ('$_POST[name]','$_POST[description]', '$savedFileName', '$_POST[location]', $_POST[starting_bid], 0, $ownerID, $_POST[total_quantity],$_POST[total_quantity],
+            INSERT INTO entry (name, description, image_path, location, starting_bid,current_bid,owner_id,bid_closing_date,loan_duration) 
+            VALUES ('$_POST[name]','$_POST[description]', '$savedFileName', '$_POST[location]', $_POST[starting_bid], 0, $ownerID,
             '$_POST[bid_closing_date]','$_POST[loan_duration]');
         ";
         // echo "<div>

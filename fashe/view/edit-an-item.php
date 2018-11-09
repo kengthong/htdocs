@@ -5,7 +5,7 @@
 	parse_str($parts['query'], $query);
 	$db = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102Project user=postgres password=kengthong");	
 	$queryString = "
-	SELECT DISTINCT name, image_path, description, active, entry_id, location, total_quantity, loan_duration, bid_closing_date, starting_bid
+	SELECT DISTINCT name, image_path, description, active, entry_id, location, loan_duration, bid_closing_date, starting_bid
 	FROM entry 
 	WHERE entry_id = " . $query['id'] . ";"; 
 
@@ -153,6 +153,12 @@
 										</li>
 
 										<li class='header-cart-item'>
+											<a href='my-bids.php'>
+												My bids
+											</a>
+										</li>
+
+										<li class='header-cart-item'>
 											<a href='settings/profile.php'>
 												Setting
 											</a>
@@ -165,8 +171,8 @@
 										</li>
 									</ul>
 								</div>	
-							</div>					
-						";
+							</div>							
+							";
 					?>
 				</div>
 			</div>
@@ -190,7 +196,7 @@
 						
 						<?php 
 							if($row['image_path'] == '-') {
-								echo'<input class="image-placeholder" type="button" value="Upload +" onclick="document.getElementById("upload_image).click()" />';
+								echo"<img src='https://picsum.photos/500/666' alt='hi' height='500px' width='569px'/>";
 							} else {
 								echo"
 								<span>
@@ -281,22 +287,6 @@
 
 						<div class='row register-row'>
 							<div class='col-lg-4 form-labels'>
-								Total Quantity
-							</div>
-
-							<div class='col-lg-8'>
-								<input 
-									name='total_quantity'
-									id='total_quantity'
-									type='number'
-									class='register-form'
-									placeholder="1"
-								/>
-							</div>
-						</div>
-
-						<div class='row register-row'>
-							<div class='col-lg-4 form-labels'>
 								Bid Closing Date
 							</div>
 
@@ -348,7 +338,6 @@
 				document.getElementById('description').defaultValue = '$row[description]';
 				document.getElementById('location').defaultValue = '$row[location]';
 				document.getElementById('starting_bid').defaultValue = '$row[starting_bid]';
-				document.getElementById('total_quantity').defaultValue = '$row[total_quantity]';
 				document.getElementById('bid_closing_date').value = '$row[bid_closing_date]';
 				
 				var imageParts = '$row[image_path]'.split('/');

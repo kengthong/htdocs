@@ -145,7 +145,7 @@
                                         </ul>
                                     </div>	
                                 </div>							
-								";
+                                ";
 						} else {
 							//prompt login button
 							echo "

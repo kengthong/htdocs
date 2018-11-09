@@ -99,46 +99,52 @@
 
 						if($login) {
 							echo "
-                                <!-- Header Icon -->
-                                        
+								<!-- Header Icon -->
+										
 
-                                <div class='header-wrapicon2 js-show-header-dropdown header-icon1' style='width: 52px'>
-                                    <img src='../images/icons/icon-header-01.png' class='header-icon1' alt='ICON'>
-                                    <span class='header-icon-notif'>0</span>
-                                    <span class='caret'></span>
+								<div class='header-wrapicon2 js-show-header-dropdown header-icon1' style='width: 52px'>
+									<img src='../images/icons/icon-header-01.png' class='header-icon1' alt='ICON'>
+									<span class='header-icon-notif'>0</span>
+									<span class='caret'></span>
 
-                                    <!-- Header cart noti -->
-                                    <div class='header-user header-dropdown' style='width: 200px'>
-                                        <div style='border-bottom: 1px solid #e8e8e8; padding-bottom: 8px; display:flex; justify-content: flex-end'>
-                                            $_SESSION[name]
-                                        </div>
-                                        <ul class='header-cart-wrapitem' style='align-items: flex-end;display: flex; flex-direction: column;'>
-                                            <li class='header-cart-item'>
-                                                <a href='my-listings.php'>
-                                                    My Listings
-                                                </a>
-                                            </li>
+									<!-- Header cart noti -->
+									<div class='header-user header-dropdown' style='width: 200px'>
+										<div style='border-bottom: 1px solid #e8e8e8; padding-bottom: 8px; display:flex; justify-content: flex-end'>
+											$_SESSION[name]
+										</div>
+										<ul class='header-cart-wrapitem' style='align-items: flex-end;display: flex; flex-direction: column;'>
+											<li class='header-cart-item'>
+												<a href='my-listings.php'>
+													My Listings
+												</a>
+											</li>
 
-                                            <li class='header-cart-item'>
-                                                <a href='borrowed-items.php'>
-                                                    My borrowed items
-                                                </a>
-                                            </li>
+											<li class='header-cart-item'>
+												<a href='borrowed-items.php'>
+													My borrowed items
+												</a>
+											</li>
 
-                                            <li class='header-cart-item'>
-                                                <a href='settings/profile.php'>
-                                                    Setting
-                                                </a>
-                                            </li>
+											<li class='header-cart-item'>
+												<a href='my-bids.php'>
+													My bids
+												</a>
+											</li>
 
-                                            <li class='header-cart-item'>
-                                                <a href='logout.php'>
-                                                    Log Out
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>	
-                                </div>							
+											<li class='header-cart-item'>
+												<a href='settings/profile.php'>
+													Setting
+												</a>
+											</li>
+
+											<li class='header-cart-item'>
+												<a href='logout.php'>
+													Log Out
+												</a>
+											</li>
+										</ul>
+									</div>	
+								</div>							
 								";
 						} else {
 							//prompt login button
@@ -263,22 +269,6 @@
                                     class='register-form'
                                     style="opacity:0.65;"
                                     placeholder="$0"
-                                />
-                            </div>
-                        </div>
-
-                        <div class='row register-row'>
-                            <div class='col-lg-4 form-labels'>
-                                Total Quantity
-                            </div>
-
-                            <div class='col-lg-8'>
-                                <input 
-                                    name='total_quantity'
-                                    type='number'
-                                    class='register-form'
-                                    style="opacity:0.65;"
-                                    placeholder="1"
                                 />
                             </div>
                         </div>

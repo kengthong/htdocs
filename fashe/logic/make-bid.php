@@ -3,8 +3,7 @@
 
     if(isset($_POST['submit'])) {
         
-        if(!isset($_POST['new_bid']) || trim($_POST['new_bid'] == "")
-        || !isset($_POST['quantity']) || trim($_POST['quantity'] == "")) {
+        if(!isset($_POST['new_bid']) || trim($_POST['new_bid'] == "")) {
             echo" You did not fill out the required tables.";
             header("Location: ../view/item-detail.php?id=$_SESSION[active_entry_id]&bid=error");
         } else if(!$_SESSION['active_entry_id']) {
@@ -12,7 +11,7 @@
         } else {
             $db = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102Project user=postgres password=kengthong");	
 
-            $queryForEntry = "SELECT DISTINCT current_bid, starting_bid, current_quantity from entry where entry_id = $_SESSION[active_entry_id];";
+            $queryForEntry = "SELECT DISTINCT current_bid, starting_bid, from entry where entry_id = $_SESSION[active_entry_id];";
             $entryResult = pg_query($db, $queryForEntry);
             $entryRow = pg_fetch_assoc($entryResult);		
 
@@ -20,14 +19,10 @@
             if($_POST['new_bid'] > $entryRow['starting_bid'] && $_POST['new_bid'] > $entryRow['current_bid']) {
              
                 $queryString = "
-                INSERT INTO bid_record(bid_amount, quantity, user_id, entry_id) 
-                    VALUES($_POST[new_bid], $_POST[quantity], $_SESSION[user_id], $_SESSION[active_entry_id]);
+                INSERT INTO bid_record(bid_amount, user_id, entry_id) 
+                    VALUES($_POST[new_bid], $_SESSION[user_id], $_SESSION[active_entry_id]);
                 "; 
                 
-                $updatedQuantity =  $entryRow['current_quantity'] - $_POST['quantity'];
-                echo"current_quantity = $entryRow[current_quantity] |";
-                echo"quantity = $_POST[quantity]";
-                echo"updated quantity = $updatedQuantity";
                 $insert_result = pg_query($db, $queryString);
 
 

@@ -259,7 +259,7 @@
 									<div style='width: 100%;opacity: 0.6; '>
 										Current Bid: $ $row[current_bid] 
 									</div>"; 
-									if($_SESSION['user_id'] == $row['owner_id'] && $row['bidder_id'] != null ) {
+									if($_SESSION['user_id'] == $row['owner_id'] && $row['bidder_id'] != null && $row['available'] == 't') {
 										echo"
 											<form action='../logic/accept-bid.php' method='POST'>
 												<button type='submit' name='accept_bid' class='btn-primary btn' id='accept' style='font-size: 14px;'>
@@ -276,7 +276,7 @@
 						</div>
 
 						<div style='font-size: 14px; font-weight: 600; opacity: 0.6; width: 100%'>
-							<?php echo"Quantity Available: $row[current_quantity]/$row[total_quantity]"; ?>
+							<?php if($row['available'] == 't'){echo"Available";} else { echo "Item unavailable";}; ?>
 						</div>
 					</div>
 

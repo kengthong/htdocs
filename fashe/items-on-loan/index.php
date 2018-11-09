@@ -144,8 +144,8 @@
 					<th>Status</th>
 				</tr>
 				
-				<?php include('../logic/viewLoans.php');?>
-<!--button to tick returned-->
+				<!--?<php include('../logic/viewLoans.php');?>-->
+<!--button to indicate returned-->
 <!--logic for changing returned to true-->
 			</table>
 		</div>

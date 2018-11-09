@@ -1,12 +1,12 @@
 <?php
 //variables for connection
 $servername = "localhost";
-$portnum = "8080";
+$portnum = "5543";
 $username = "postgres"; //username
 $password = "password"; //pass
 $dbname = "fashe";
 $table = "items_on_loan"; //table name
-$userid = 1; //1 for testing, was thinking of $_SESSION[user_id];
+$userid = $_SESSION[user_id];
 
 //Create connection
 $db = pg_connect($servername, $portnum, $dbname, $username, $password);
@@ -36,7 +36,7 @@ while($row = pg_fetch_array($result)){
   
 //item_img is the item pic.
   echo "<tr><td>" . $serial++ . "</td><td>" .$row["item_name"] ."</td>"?>
-   <img src="<?php echo $row["item_img"]; ?>" height="50px" width="50px"> 
+   <img src="<?php echo $row["image_path"]; ?>" height="50px" width="50px"> 
    <?php echo "</td><td>" . $datediff->format('%a') . "</td><td>" .$row["return_by"] ."</td><td>" .$status ."</td></tr>";
   }
 echo "</table>";

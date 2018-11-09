@@ -21,7 +21,7 @@
                 where user_id = '$userId' ;
                 ";
                     
-                echo"queryString = " . $queryString;
+                //echo"queryString = " . $queryString;
 
 
                 if($name == '' || $email == '' || $contact_number == '' || $username == '') {

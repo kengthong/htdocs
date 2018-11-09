@@ -6,7 +6,7 @@
 
         $db = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102Project user=postgres password=kengthong");
         if(isset($_POST['submit'])) {
-            echo"";
+            //echo""; //debugging
 
             $recordId = $query['record_id'];
             $queryString = "UPDATE borrowed_record set borrower_returned = TRUE where record_id = $recordId;";

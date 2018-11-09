@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    echo"anything";
+    //echo"anything"; //for debugging
     if(isset($_POST['accept_bid'])) {
         $db = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102Project user=postgres password=kengthong");	
         $queryString = "
@@ -14,7 +14,7 @@
             AND e.current_bid = bir.bid_amount; 
         "; 
         
-        echo"$queryString";
+        //echo"$queryString"; //for debugging
         $insert_result = pg_query($db, $queryString);
 
         if($insert_result) {

@@ -16,11 +16,12 @@
         $userInputNewPassword = $_POST['new_password'];
         $userInputConfirmPassword = $_POST['confirm_password'];
 
-        echo"querystring = " .$query_string ;
+        //echo"querystring = " .$query_string ; //debug
  
-        echo"database current password = $userData[password]";
-        echo"user input current password = ". $userInputCurrentPassword;
-        echo"hashedd current password = " . md5($userInputCurrentPassword);
+        //debug
+        //echo"database current password = $userData[password]"; 
+        //echo"user input current password = ". $userInputCurrentPassword;
+        //echo"hashedd current password = " . md5($userInputCurrentPassword); 
 
         if(isset($_POST['change-password-submit'])) {
             if($userData['password'] == md5($userInputCurrentPassword)) {

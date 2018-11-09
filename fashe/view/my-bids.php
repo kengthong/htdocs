@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>My Listings</title>
+        <title>My Bids</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
@@ -169,7 +169,7 @@
             <div class="container">
                 <div class="sec-title p-b-60" >
                     <div style='width: 100%; height: 40px; border-bottom: 1px solid #e8e8e8; font-size: 22px;'>
-                        Borrowed Items
+                        My Bids
                     </div>
                 </div>
                 <!-- SQL code to retrieve My listings -->
@@ -178,12 +178,25 @@
                         #query database
                         $db = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102Project user=postgres password=kengthong");	
                         $queryString = "
-                            select * 
-                            from borrowed_record bir INNER JOIN (SELECT e.entry_id, e.name, e.current_bid, e.bid_closing_date, e.image_path, e.location
+                            select distinct on (bir.entry_id)
+                            *
+                            FROM bid_record bir INNER JOIN 
+                            (SELECT e.entry_id, e.name, e.current_bid, e.bid_closing_date, e.image_path, e.location
                             FROM entry e ) as e
                             ON bir.entry_id = e.entry_id
-                            WHERE bir.borrower_id = 1;
+                            WHERE bir.user_id = $_SESSION[user_id]
+                            order by bir.entry_id desc, bid_id;
                         ";
+
+                        // $queryString = "
+                        //     select distinct on (bir.entry_id)
+                        //     *
+                        //     FROM bid_record bir INNER JOIN 
+                        //     (SELECT e.entry_id, e.name, e.current_bid, e.bid_closing_date, e.image_path, e.location
+                        //     FROM entry e ) as e
+                        //     ON bir.entry_id = e.entry_id
+                        //     WHERE bir.user_id = 1
+                        //     order by bir.entry_id desc, bid_id;";
 
                         $result = pg_query($db, $queryString);
 
@@ -194,31 +207,62 @@
                                     // echo"$oneRecord[name]";
 
                                     echo"
-                                        <div style='width: 100%; border: 1px solid #e8e8e8; border-radius: 8px; padding: 8px'>
+                                        <div style='width: 80%; margin-left: auto; margin-right: auto; border: 1px solid #e8e8e8; border-radius: 8px; padding: 8px'>
                                             <div class='w-100 entry-title flex-row' style='justify-content: space-between'>
                                                 $oneRecord[name]
 
-                                                <a href='my-entry.php?id=$oneRecord[entry_id]'>
+                                                <a href='item-detail.php?id=$oneRecord[entry_id]'>
                                                     View more
                                                 </a>
                                             </div>
                     
                                             <div class='flex-col w-90'>
-                                                <div class='w-100 flex-row'>
-                                                    <div class='w-30'>
-                                                        <img style='height: 100px; width: '00px'
-                                                        src='https://loremflickr.com/320/240/gadgets?lock=$i'>
-                                                    </div>
+                                                <div style='width: 100%; display: flex'>
+                                                    <div style='width: 20%'>";
+
+                                                    if($oneRecord['image_path'] != "-"){
+                                                        echo"
+                                                            <img style='height: 100px; width: '00px'
+                                                            src=$oneRecord[image_path]>
+                                                        ";
+                                                    } else {
+                                                        echo "
+                                                            <img style='height: 100px; width: '00px'
+                                                            src='https://loremflickr.com/320/240/gadgets?lock=$i'>
+                                                        ";
+                                                    }
+                                                        
+                                                    echo "</div>
                         
-                                                    <div class='w-70'>
-                                                        <div class='row w-100'>
-                                                            $$oneRecord[current_bid]
-                                                        </div>
-                        
-                                                        <div class='row w-100'>
-                                                            $oneRecord[current_quantity]/$oneRecord[total_quantity]
-                                                        </div>
+                                                    <div style='width: 50%'>
+
                                                     </div>
+
+                                                    <form action='../logic/update-bid.php?bid_id=$oneRecord[bid_id]' method='POST' style='width: 30%; flex-direction: column; display:flex'>
+                                                        <div style='width: 100%; display: flex; align-items: center;'>
+                                                            <div style='padding-right: 8px; opacity:0.65; width: 45%'>
+                                                                Current bid 
+                                                            </div>
+                                                            <div style='font-size: 30px; opacity: 0.8'>
+                                                                $$oneRecord[current_bid]
+                                                            </div>
+                                                        </div>
+
+                                                        <div style='width: 100%; margin-top: 8px; display: flex; align-items: center;'>
+                                                            <div style='padding-right: 8px; opacity:0.65; width: 45%'>
+                                                                Your bid
+                                                            </div>
+                                                            <div style='width: 55%'>
+                                                                <input name='amount' value='$oneRecord[bid_amount]' style='border-bottom: 1px solid #e8e8e8 !important; width: 100%'/>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div style='width: 100%; display: flex; justify-content: flex-end; padding-top: 16px;'>
+                                                            <button class='btn btn-primary' type='submit' name='submit' >
+                                                                Make new bid
+                                                            </button>
+                                                        </div>
+                                                    </form>
                                                 </div>
                         
                                                 <div>
@@ -472,3 +516,4 @@
 
     </body>
 </html>
+s

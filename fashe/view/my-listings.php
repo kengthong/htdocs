@@ -6,6 +6,11 @@
         header( "Location: error-page.php");
     }
 
+    $db = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102Project user=postgres password=kengthong");	
+    $parts = parse_url($_SERVER['REQUEST_URI']);
+    parse_str($parts['query'], $query);
+    $userId = $_SESSION['user_id'];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -180,71 +185,192 @@
 
                 
             </div>
-            
+
+            <div style='width: 100%; display: flex; justify-content: flex-start; padding-bottom: 16px;'>
+                <a href='my-listings.php' style='font-size: 16px; <?php if(!$query['loaned_out']) {echo"color: #2277ff";}?>' >
+                    Available Items
+                </a>
+
+                <span style='padding-left: 8px; padding-right: 8px'> 
+                    |
+                </span>
+
+                <a href='my-listings.php?loaned_out=true' style=' font-size: 16px; <?php if($query['loaned_out']) {echo"color: #2277ff";}?>' '>
+                    Items Loaned Out
+                </a>
+            </div>
+
             <!-- SQL code to retrieve My listings -->
-            <div class="wrap-slick2" style="display: flex; flex-flow: row wrap">
+            <div class="wrap-slick2" style="display: flex; flex-flow: row wrap; width: 100%">
 
                 <?php 
                     $db = pg_connect("host=127.0.0.1  port=8080 dbname=cs2102Project user=postgres password=kengthong");	
-                    
-
+                    $parts = parse_url($_SERVER['REQUEST_URI']);
+                    parse_str($parts['query'], $query);
                     $userId = $_SESSION['user_id'];
-                    $queryString = "
-                    SELECT *
-                    FROM entry e
-                    WHERE e.owner_id = $userId
-                    ORDER BY bid_closing_date DESC;";
 
+                    if($query['loaned_out'] && $query['loaned_out'] == 'true') {
+                        $queryString = "
+                        SELECT *
+                        FROM entry e inner join (select record_id, return_by, borrowed_price, entry_id, owner_received from borrowed_record) as bir
+                        ON (bir.entry_id = e.entry_id AND bir.owner_received = FALSE)
+                        WHERE e.owner_id = $userId
+                        AND e.active = TRUE
+                        AND e.available = FALSE
+                        ORDER BY bid_closing_date DESC;";
 
-                    $result = pg_query($db, $queryString);
+                        $result = pg_query($db, $queryString);
+                        if($result) {
+                            if(pg_num_rows($result)>0) {
+                                $i = 1;
+                                while($oneRecord = pg_fetch_array($result)) {
+                                    echo"
+                                        <div style='width: 50%; margin-right: auto; padding: 8px'> 
+                                            <div style='margin-left: auto; border: 1px solid #e8e8e8; border-radius: 8px; padding: 8px'>
+                                                <div class='w-100 entry-title flex-row' style='justify-content: space-between'>
+                                                    $oneRecord[name]
 
-                    if($result) {
-                        if(pg_num_rows($result) >0) {
-                            $i = 1;
-                            while($oneRecord = pg_fetch_array($result)) {
-                                echo"
-                                    <div class='item-slick2 p-l-15 p-r-15' style='height: 431px; width: 300px; max-width: 25%; margin-top: 8px; margin-bottom: 8px'>
-                                        <!-- Block2 -->
-                                        <div class='block2' style='border: 1px solid #e8e8e8; border-radius: 8px;'>
-                                            <a href='item-detail.php?id=$oneRecord[entry_id]' class='block2-img wrap-pic-w of-hidden pos-relative block2-labelnew'>
-                                                <div style='width: 270px; height: 320px; justify-content:center; align-items: center; display: flex;'>
-                                                    <img src='https://loremflickr.com/320/240/gadgets?lock=$i' alt=''>
-                                                </div>
-                                            </a>
-
-                                            <div class='block2-txt p-t-20'>
-                                                <div style='width: 95%; padding: 8px; margin-left: auto; margin-right: auto; border-top: 1px solid #e8e8e8'>
-                                                    <a href='product-detail.html?id=$oneRecord[entry_id]' style='font-size: 16px'>
-                                                        $oneRecord[name]
+                                                    <a href='item-detail.php?id=$oneRecord[entry_id]'>
+                                                        View more
                                                     </a>
+                                                </div>
+                        
+                                                <div class='flex-col w-90'>
+                                                    <div style='width: 100%; display: flex'>
+                                                        <div style='width: 20%'>";
 
-                                                    <span class='block2-name dis-block s-text3 p-b-5' style='opacity:0.8'>
-                                                        Current Bid: $$oneRecord[current_bid]
-                                                    </span>
+                                                        if($oneRecord['image_path'] != '-'){
+                                                            echo"
+                                                                <img style='height: 100px; width: 100px'
+                                                                src='$oneRecord[image_path]'>
+                                                            ";
+                                                        } else {
+                                                            echo "
+                                                                <img style='height: 100px; width: 100px'
+                                                                src='https://loremflickr.com/320/240/gadgets?lock=$i'>
+                                                            ";
+                                                        }
+                                                            
+                                                        echo "</div>
+                            
+                                                        <div style='width: 30%'>
 
-                                                    <span style='font-size: 10px;'>
-                                                        Bid closes at $oneRecord[bid_closing_date]
-                                                    </span>
+                                                        </div>
+
+                                                        <form action='../logic/owner_confirm_received.php?record_id=$oneRecord[record_id]&entry_id=$oneRecord[entry_id]' method='POST' style='width: 50%; flex-direction: column; display:flex'>
+                                                            <div style='width: 100%; display: flex; align-items: center;'>
+                                                                <div style='padding-right: 8px; opacity:0.65; width: 50%'>
+                                                                    Return by
+                                                                </div>
+                                                                <div style='color: #6169e6'>
+                                                                    $oneRecord[return_by]
+                                                                </div>
+                                                            </div>
+
+                                                            <div style='width: 100%; margin-top: 8px; display: flex; align-items: center;'>
+                                                                <div style='padding-right: 8px; opacity:0.65; width: 50%'>
+                                                                    Meet up location 
+                                                                </div>
+                                                                <div style='color: #6169e6'>
+                                                                    $oneRecord[location]
+                                                                </div>
+                                                            </div>
+
+                                                            <input name='empty' value='' id='empty' style='display:none'>
+                                                            
+                                                            <div style='width: 100%; display: flex; justify-content: flex-end; padding-top: 16px;'>
+                                                                <button class='btn btn-primary' type='submit' name='submit' style='font-size: 12px'>
+                                                                    Confirm received
+                                                                </button> 
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    ";
+                                }
+                                $i = $i + 17;
+                            } else {
+                                echo"
+                                <div style='height: 400px; display: flex; justify-content: center; align-items: center; width: 100%'>
+                                    No data
+                                </div>
                                 ";
-
-                                $i=$i+10;
                             }
                         } else {
-                            echo "No data";
+                            echo "Failed to query";
                         }
-                    } else {
-                        echo" failed to query";
+                    }
+
+                ?>
+
+                <?php 
+
+                    if(!$query['loaned_out']){
+                        $queryString = "
+                        SELECT *
+                        FROM entry e
+                        WHERE e.owner_id = $userId
+                        AND e.active = TRUE
+                        AND e.available = TRUE
+                        ORDER BY bid_closing_date DESC;";
+
+
+                        $result = pg_query($db, $queryString);
+
+                        if($result) {
+                            if(pg_num_rows($result) >0) {
+                                $i = 1;
+                                while($oneRecord = pg_fetch_array($result)) {
+                                    echo"
+                                        <div class='item-slick2 p-l-15 p-r-15' style='height: 431px; width: 300px; max-width: 25%; margin-top: 8px; margin-bottom: 8px'>
+                                            <!-- Block2 -->
+                                            <div class='block2' style='border: 1px solid #e8e8e8; border-radius: 8px;'>
+                                                <a href='item-detail.php?id=$oneRecord[entry_id]' class='block2-img wrap-pic-w of-hidden pos-relative block2-labelnew'>
+                                                    <div style='width: 270px; height: 320px; justify-content:center; align-items: center; display: flex;'>
+                                                        <img src='https://loremflickr.com/320/240/gadgets?lock=$i' alt=''>
+                                                    </div>
+                                                </a>
+
+                                                <div class='block2-txt p-t-20'>
+                                                    <div style='width: 95%; padding: 8px; margin-left: auto; margin-right: auto; border-top: 1px solid #e8e8e8'>
+                                                        <a href='product-detail.html?id=$oneRecord[entry_id]' style='font-size: 16px'>
+                                                            $oneRecord[name]
+                                                        </a>
+
+                                                        <span class='block2-name dis-block s-text3 p-b-5' style='opacity:0.8'>
+                                                            Current Bid: $$oneRecord[current_bid]
+                                                        </span>
+
+                                                        <span style='font-size: 10px;'>
+                                                            Bid closes at $oneRecord[bid_closing_date]
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ";
+
+                                    $i=$i+10;
+                                }
+                            } else {
+                                echo "
+                                    <div style='height: 400px'>
+                                        No data currently
+                                    </div>
+                                ";
+                            } 
+                        } else {
+                            echo" failed to query";
+                        }
                     }
                 ?>
-                
+
             </div>
             
             <!--Navigation icons-->
-            <div class = navbar>
+            <!-- <div class = navbar>
             
             <a href="my-listings.php">
                 <img src="..\images\icons\Listings Icons\checklist.png" alt="delete Listings" style="width:100px;height:100px;border:20;hspace=50">
@@ -265,7 +391,7 @@
                 <img src="..\images\icons\Listings Icons\minus.png" alt="delete Listings" style="width:100px;height:100px;border:0;hspace=50">
                 <p>delete listing</p>
             </a>
-            </div>
+            </div> -->
             
         </div>
     </section>
